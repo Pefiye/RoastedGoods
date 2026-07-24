@@ -1,10 +1,11 @@
 <script>
 	import favicon from '$lib/assets/favicon.png';
 	import '$lib/app.scss';
+	import ToastContainer from '$lib/components/ToastContainer.svelte';
 
-	let Title = "Application"
+	let Title = "RoastedGoods"
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -13,3 +14,4 @@
 </svelte:head>
 
 {@render children()}
+<ToastContainer />

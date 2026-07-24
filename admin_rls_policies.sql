@@ -1,0 +1,21 @@
+-- Run this in your Supabase SQL Editor to grant Admins access to profiles.
+-- Make sure you have created the get_auth_role() function from fix_rls_recursion.sql first.
+
+CREATE POLICY "Admins can view all profiles"
+  ON public.profiles FOR SELECT
+  USING ( public.get_auth_role() = 'admin' );
+
+-- Allow admins to insert profiles
+CREATE POLICY "Admins can insert profiles"
+  ON public.profiles FOR INSERT
+  WITH CHECK ( public.get_auth_role() = 'admin' );
+
+-- Allow admins to update all profiles
+CREATE POLICY "Admins can update all profiles"
+  ON public.profiles FOR UPDATE
+  USING ( public.get_auth_role() = 'admin' );
+
+-- Allow admins to delete profiles
+CREATE POLICY "Admins can delete profiles"
+  ON public.profiles FOR DELETE
+  USING ( public.get_auth_role() = 'admin' );
