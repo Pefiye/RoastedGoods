@@ -6,8 +6,6 @@ export const load = async ({ locals }) => {
   if (!session) {
     throw redirect(303, '/auth/login');
   }
-
-  // Get user's cart with cart details and joined product data
   const { data: cart } = await locals.supabase
     .from('carts')
     .select('id')
@@ -36,8 +34,6 @@ export const load = async ({ locals }) => {
     .eq('cart_id', cart.id)
     .eq('products.is_active', true)
     .order('created_at', { ascending: true });
-
-  // Transform cart details to include computed prices
   const cartItems = (cartDetails ?? []).map(item => {
     const product = item.products;
     const variantData = (product.variants || []).find(v => v.name === item.variant);

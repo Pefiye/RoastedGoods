@@ -12,17 +12,14 @@ export const POST = async ({ request }) => {
     });
 
     const notificationJson = await request.json();
-    
-    // Validate the notification using Midtrans SDK
     const statusResponse = await snap.transaction.notification(notificationJson);
-    
+
     let orderId = statusResponse.order_id;
-    // Strip retry suffix if present (e.g., -r[base36timestamp])
     const dashRIndex = orderId.lastIndexOf('-r');
     if (dashRIndex > 0 && dashRIndex > orderId.lastIndexOf('-', dashRIndex - 1)) {
       orderId = orderId.substring(0, dashRIndex);
     }
-    
+
     const transactionStatus = statusResponse.transaction_status;
     const fraudStatus = statusResponse.fraud_status;
     const paymentId = statusResponse.transaction_id;
@@ -40,10 +37,8 @@ export const POST = async ({ request }) => {
     } else if (transactionStatus == 'pending') {
       newStatus = 'pending';
     }
-
-    // Use RPC function (SECURITY DEFINER) to bypass RLS
     const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
-    
+
     const { error } = await supabase.rpc('update_order_status', {
       p_order_id: orderId,
       p_status: newStatus,

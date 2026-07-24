@@ -17,8 +17,6 @@ export const load = async ({ locals }) => {
     profile = data;
   }
 
-  // Route protection is now handled by src/hooks.server.js
-
   return {
     session,
     user,

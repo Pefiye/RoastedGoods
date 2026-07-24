@@ -61,8 +61,6 @@
       minute: "2-digit",
     });
   }
-
-  // Auto-refresh the queue every 30 seconds
   let refreshInterval;
   onMount(() => {
     refreshInterval = setInterval(() => {

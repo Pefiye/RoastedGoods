@@ -14,8 +14,6 @@ export const POST = async ({ request, locals }) => {
   if (!orderId) {
     throw error(400, 'Missing orderId');
   }
-
-  // Fetch the order and its details
   const { data: order, error: orderError } = await locals.supabase
     .from('orders')
     .select('*')
@@ -30,13 +28,9 @@ export const POST = async ({ request, locals }) => {
   if (order.status !== 'pending') {
     throw error(400, 'Order is not pending');
   }
-
-  // If we already have a snap token saved, return it
   if (order.payment_id) {
     return json({ token: order.payment_id });
   }
-
-  // Otherwise generate a new one
   const { data: orderDetails } = await locals.supabase
     .from('order_details')
     .select('product_id, product_name, variant, quantity, unit_price')
@@ -55,9 +49,8 @@ export const POST = async ({ request, locals }) => {
   }));
 
   const origin = new URL(request.url).origin;
-  // Midtrans max order_id length is 50. UUID is 36. We use a base36 timestamp to keep it under 50.
   const retryOrderId = `${orderId}-r${Date.now().toString(36)}`;
-  
+
   const parameter = {
     transaction_details: {
       order_id: retryOrderId,

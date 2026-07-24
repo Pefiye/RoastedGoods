@@ -6,7 +6,7 @@
   let searchQuery = $state("");
   let currentPage = $state(1);
   const itemsPerPage = 8;
-  
+
   $effect(() => {
     if (searchQuery !== undefined) {
       currentPage = 1;
@@ -30,7 +30,7 @@
 </script>
 
 <div class="d-flex flex-column gap-4 animation-pageIn">
-  <!-- Header -->
+
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="fsc-5 fw-black text-dark m-0">Accounts</h1>
     <button onclick={() => isCreateModalOpen = true} class="px-5 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 text-nowrap hover-button-alt d-flex align-items-center gap-2">
@@ -46,7 +46,7 @@
 
   <div class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200">
     <div class="d-flex justify-content-between align-items-center mb-5">
-      <!-- Search -->
+
       <div class="position-relative w-100" style="max-width: 400px;">
         <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"></i>
         <input
@@ -61,7 +61,6 @@
       </div>
     </div>
 
-    <!-- Profiles Table -->
     <div class="table-responsive">
       <table class="table table-borderless align-middle m-0">
         <thead>
@@ -145,7 +144,7 @@
           >
             <i class="bi bi-chevron-left {currentPage === 1 ? 'text-muted' : ''}"></i>
           </button>
-          
+
           <span class="fsc-3 fw-bold text-dark">
             Page {currentPage} of {totalPages}
           </span>
@@ -177,7 +176,7 @@
       </div>
 
       <form action="?/create" method="POST" use:enhance={() => { isSubmitting = true; return async ({ update }) => { await update(); isSubmitting = false; isCreateModalOpen = false; }; }} class="d-flex flex-column gap-4">
-        
+
         <div class="d-flex flex-column gap-2">
           <label for="email" class="fsc-3 fw-bold text-dark">Email Address</label>
           <input type="email" id="email" name="email" required class="w-100 py-3 px-4 rounded-3 border border-2 border-accent-200 outline-0 fsc-3 bg-secondary transition-all" onfocus={(e) => (e.target.style.borderColor = "var(--color-accent-500)")} onblur={(e) => (e.target.style.borderColor = "")} placeholder="user@example.com" />
@@ -196,7 +195,7 @@
         <div class="d-flex flex-column gap-2 position-relative">
           <label class="fsc-3 fw-bold text-dark">Role</label>
           <input type="hidden" name="role" value={createRole} />
-          
+
           <button 
             type="button"
             onclick={() => createRoleMenuOpen = !createRoleMenuOpen}
@@ -212,7 +211,7 @@
             </div>
           {/if}
         </div>
-        
+
         <div class="d-flex justify-content-end gap-3 mt-4">
           <button type="button" class="px-5 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 text-nowrap hover-button" onclick={() => isCreateModalOpen = false} disabled={isSubmitting}>Cancel</button>
           <button type="submit" class="px-5 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 text-nowrap hover-button-alt d-flex align-items-center gap-2" disabled={isSubmitting}>

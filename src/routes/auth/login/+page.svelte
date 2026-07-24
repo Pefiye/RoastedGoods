@@ -11,8 +11,6 @@
   let email = $state('');
   let password = $state('');
   let loading = $state(false);
-
-  // Redirect if already logged in (checked on mount)
   import { onMount } from 'svelte';
   onMount(async () => {
     if (data.session) {
@@ -33,15 +31,12 @@
       loading = false;
       return;
     }
-
-    // The server hook (src/hooks.server.js) handles role-based routing using the admin client.
-    // We just do a hard navigation to the root to trigger a full server evaluation.
     window.location.href = '/';
   }
 
   async function handleGoogleLogin() {
     loading = true;
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -60,11 +55,9 @@
 
 <div class="d-flex flex-grow-1 w-100 justify-content-center align-items-center bg-accent-100 py-20">
   <div class="bg-white p-8 p-md-10 rounded-4 b-shadow-s border border-accent-200 w-100 animation-pageIn" style="max-width: 420px;">
-    
+
     <h1 class="fsc-6 fw-black text-accent-500 mb-2 text-center">Welcome Back</h1>
     <p class="fsc-2 text-muted text-center mb-8">Sign in to your account</p>
-
-
 
     <form onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
       <div class="d-flex flex-column gap-2 mb-5">

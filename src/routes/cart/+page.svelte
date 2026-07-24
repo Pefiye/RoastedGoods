@@ -15,8 +15,6 @@
   let { data } = $props();
 
   let cartItems = $state(data.cartItems);
-
-  // Keep cartItems in sync when server data changes (e.g. after invalidateAll)
   $effect(() => {
     cartItems = data.cartItems;
   });
@@ -34,8 +32,6 @@
     if (!item) return;
 
     const newQty = item.quantity + delta;
-
-    // Optimistic update
     cartItems = cartItems.map((i) =>
       i.id === itemId ? { ...i, quantity: newQty } : i,
     );
@@ -47,7 +43,6 @@
   }
 
   async function deleteItem(itemId) {
-    // Optimistic update
     cartItems = cartItems.filter((i) => i.id !== itemId);
 
     await supabase.from("cart_details").delete().eq("id", itemId);
@@ -67,9 +62,9 @@
     class="d-flex flex-column flex-lg-row w-100 px-5 px-md-10 gap-8"
     style="max-width: 1100px;"
   >
-    <!-- Left Section: Cart Items -->
+
     <div class="d-flex flex-column flex-grow-1 gap-5" style="max-width: 700px;">
-      <!-- Items List -->
+
       <div
         class="bg-white p-5 p-md-8 rounded-4 b-shadow-s d-flex flex-column gap-5 border border-accent-200 stagger-children"
       >
@@ -78,7 +73,7 @@
             class="d-flex w-100 align-items-start pb-5 border-bottom border-accent-200 last-border-0"
           >
             <div class="d-flex flex-column flex-sm-row w-100 gap-5">
-              <!-- Item Image -->
+
               <div class="position-relative flex-shrink-0">
                 <img
                   src={item.image_url}
@@ -88,7 +83,6 @@
                 />
               </div>
 
-              <!-- Item Details -->
               <div class="d-flex flex-column flex-grow-1">
                 <span
                   class="fsc-3 fw-bold text-dark text-break lh-sm"
@@ -109,7 +103,6 @@
                 </div>
               </div>
 
-              <!-- Right Side Counter -->
               <div
                 class="d-flex flex-column align-items-sm-end justify-content-end mt-3 mt-sm-0"
                 style="min-width: 100px;"
@@ -159,7 +152,6 @@
       </div>
     </div>
 
-    <!-- Right Section: Order Summary -->
     <div class="w-100 mt-5 mt-lg-0" style="max-width: 350px;">
       <div
         class="bg-white p-6 rounded-4 b-shadow-s border border-accent-200 position-sticky animation-slideLeft"

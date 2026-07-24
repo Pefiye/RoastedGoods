@@ -75,7 +75,7 @@
 
   <div class="row g-6">
     <div class="col-12 col-lg-8 d-flex flex-column">
-      <!-- Items List -->
+
       <div
         class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column flex-grow-1"
       >
@@ -135,7 +135,7 @@
     </div>
 
     <div class="col-12 col-lg-4 d-flex flex-column gap-6">
-      <!-- Header Info -->
+
       <div
         class="bg-white p-6 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column gap-5"
       >

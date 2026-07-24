@@ -4,15 +4,15 @@ export const load = async ({ params, locals }) => {
   if (params.id === 'new') {
     return { product: null };
   }
-  
+
   const { data: product } = await locals.supabase
     .from('products')
     .select('*')
     .eq('id', params.id)
     .single();
-    
+
   if (!product) throw error(404, 'Product not found');
-  
+
   return { product };
 };
 
@@ -23,9 +23,6 @@ export const actions = {
     const description = formData.get('description');
     const category = formData.get('category');
     const imageUrl = formData.get('image_url');
-    
-    // The user will enter absolute prices for each size.
-    // Base price is Tall. Price adds are calculated.
     const tallPrice = parseInt(formData.get('tall_price')) || 0;
     const grandePrice = parseInt(formData.get('grande_price')) || 0;
     const ventiPrice = parseInt(formData.get('venti_price')) || 0;

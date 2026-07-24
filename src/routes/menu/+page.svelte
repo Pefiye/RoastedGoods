@@ -16,7 +16,7 @@
   });
 
   let searchQuery = $state("");
-  let filterType = $state("all"); // 'all', 'coffee', 'non-coffee'
+  let filterType = $state("all");
   let currentPage = $state(1);
   const itemsPerPage = 12;
 

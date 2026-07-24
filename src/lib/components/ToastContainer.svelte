@@ -32,11 +32,11 @@
     z-index: 9999;
     min-width: 250px;
   }
-  
+
   .toast-item {
     transition: all 0.3s ease;
   }
-  
+
   .toast-progress {
     height: 4px;
     width: 100%;

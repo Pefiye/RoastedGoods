@@ -25,7 +25,7 @@ export const load = async ({ locals }) => {
       `)
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
-    
+
     return orders ?? [];
   };
 

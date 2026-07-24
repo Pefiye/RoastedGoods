@@ -16,7 +16,7 @@
     const userId = page.data.user?.id;
     if (userId) {
       console.log(`Subscribing to user-orders-${userId} realtime...`);
-      await supabase.auth.getSession(); // Ensure auth is initialized
+      await supabase.auth.getSession();
 
       ordersChannel = supabase
         .channel(`user-orders-${userId}`)
@@ -52,7 +52,7 @@
     class="w-100 px-5 px-md-10 d-flex flex-column flex-lg-row gap-8"
     style="max-width: 1200px;"
   >
-    <!-- Sidebar -->
+
     <div
       class="sidebar-nav d-flex flex-row flex-lg-column gap-3 flex-shrink-0 hide-scrollbar"
       style="overflow-x: auto;"
@@ -75,7 +75,6 @@
       </a>
     </div>
 
-    <!-- Main Content -->
     <div class="flex-grow-1 w-100">
       {@render children()}
     </div>

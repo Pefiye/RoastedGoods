@@ -1,5 +1,4 @@
 export const load = async ({ locals }) => {
-  // Fetch recent orders that need attention (paid or preparing)
   const getQueue = async () => {
     const { data: orders, error } = await locals.supabase
       .from('orders')

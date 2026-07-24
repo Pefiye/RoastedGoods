@@ -16,8 +16,6 @@ export const handle = async ({ event, resolve }) => {
   });
 
   event.locals.safeGetSession = async () => {
-    // Call getUser() first to authenticate against the Supabase Auth server.
-    // This suppresses the "insecure getSession" warning.
     const { data: { user }, error } = await event.locals.supabase.auth.getUser();
     if (error || !user) {
       return { session: null, user: null, profile: null };
@@ -27,8 +25,6 @@ export const handle = async ({ event, resolve }) => {
     if (!session) {
       return { session: null, user: null, profile: null };
     }
-
-    // Fetch profile using service role to bypass RLS
     const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || (await import('$env/static/private')).SUPABASE_SERVICE_ROLE_KEY);
 
     const { data: profile } = await supabaseAdmin
@@ -39,22 +35,15 @@ export const handle = async ({ event, resolve }) => {
 
     return { session, user, profile };
   };
-
-  // Route Protection Interceptors
-  // Ignore auth routes and api routes from strict redirects, unless specific rules apply
   if (!event.url.pathname.startsWith('/auth') && !event.url.pathname.startsWith('/api')) {
     const { session, profile } = await event.locals.safeGetSession();
     const path = event.url.pathname;
-
-    // Admin Area Protection
     if (path.startsWith('/admin')) {
       if (!session) throw redirect(303, '/auth/login');
       if (profile?.role !== 'admin') {
         throw redirect(303, profile?.role === 'cashier' ? '/cashier' : '/');
       }
     }
-
-    // Cashier Area Protection
     if (path.startsWith('/cashier')) {
       if (!session) throw redirect(303, '/auth/login');
       if (profile?.role === 'admin') {
@@ -63,8 +52,6 @@ export const handle = async ({ event, resolve }) => {
         throw redirect(303, '/');
       }
     }
-
-    // Prevent Cashiers and Admins from accessing user (root) pages
     if (session) {
       if (profile?.role === 'admin' && !path.startsWith('/admin')) {
         throw redirect(303, '/admin');

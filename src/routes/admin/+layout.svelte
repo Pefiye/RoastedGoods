@@ -17,7 +17,7 @@
 
   onMount(async () => {
     console.log('Subscribing to admin-orders realtime...');
-    await supabase.auth.getSession(); // Ensure auth is initialized
+    await supabase.auth.getSession();
 
     ordersChannel = supabase
       .channel('admin-orders')
@@ -63,7 +63,7 @@
 </div>
 
 <div class="d-none d-lg-flex bg-secondary h-100dvh w-100 overflow-hidden">
-  <!-- Sidebar -->
+
   <div
     class="bg-white b-shadow-e d-flex flex-column transition-all"
     style="width: {isSidebarOpen ? '250px' : '80px'}; min-width: {isSidebarOpen
@@ -133,7 +133,6 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <div
     class="flex-grow-1 d-flex flex-column overflow-y-auto bg-secondary custom-scrollbar"
   >

@@ -1,7 +1,5 @@
 export const load = async ({ locals }) => {
   const { supabase } = locals;
-
-  // Fetch sales (today)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -13,22 +11,16 @@ export const load = async ({ locals }) => {
 
   const todaySales = orders?.reduce((sum, order) => sum + order.total_price, 0) || 0;
   const todayOrders = orders?.length || 0;
-
-  // Fetch active orders for quick view
   const { data: activeOrders } = await supabase
     .from('orders')
     .select('*, profiles(username)')
     .in('status', ['paid', 'preparing'])
     .order('created_at', { ascending: true })
     .limit(5);
-
-  // Fetch popular drinks (from order details), only for paid/preparing/done orders
   const { data: orderDetails } = await supabase
     .from('order_details')
     .select('product_name, quantity, products(image_url), orders!inner(status)')
     .in('orders.status', ['paid', 'preparing', 'done']);
-
-  // Aggregate popular drinks
   const drinkCounts = {};
   if (orderDetails) {
     for (const detail of orderDetails) {

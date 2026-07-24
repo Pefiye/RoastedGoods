@@ -40,8 +40,6 @@
   let retrying = $state(false);
   let cancelling = $state(false);
   let countdown = $state(data.expiresIn);
-
-  // Live countdown timer for pending orders
   $effect(() => {
     if (order.status !== "pending" || countdown === null || countdown <= 0)
       return;
@@ -195,7 +193,6 @@
       <h1 class="fsc-4 fw-black text-accent-500 m-0">Order Details</h1>
     </div>
 
-    <!-- Status -->
     <div class="col-12 mb-6">
       <div
         class="bg-white p-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column justify-content-center align-items-center text-center"
@@ -221,7 +218,6 @@
       </div>
     </div>
 
-    <!-- Order Summary Card -->
     <div
       class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 mb-6 animation-slideUp"
     >
@@ -276,7 +272,6 @@
       </div>
     </div>
 
-    <!-- Total Cost -->
     <div
       class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 animation-slideUp"
     >

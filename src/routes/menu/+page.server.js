@@ -5,7 +5,7 @@ export const load = ({ locals }) => {
       .select('id, name, image_url, base_price, category')
       .eq('is_active', true)
       .order('created_at', { ascending: true });
-    
+
     return products ?? [];
   };
 

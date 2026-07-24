@@ -10,7 +10,7 @@
 
   onMount(async () => {
     console.log('Subscribing to cashier-orders realtime...');
-    await supabase.auth.getSession(); // Ensure auth is initialized
+    await supabase.auth.getSession();
 
     ordersChannel = supabase
       .channel('cashier-orders')
@@ -44,7 +44,7 @@
 </svelte:head>
 
 <div class="d-flex flex-column flex-grow-1 w-100 min-vh-100 bg-accent-100 text-dark font-sans">
-  <!-- Top Navigation Bar for Cashier -->
+
   <nav
     class="navbar bg-white border-bottom border-accent-200 sticky-top b-shadow-s z-3 py-3"
   >
@@ -85,7 +85,6 @@
     </div>
   </nav>
 
-  <!-- Main Content Area -->
   <main
     class="flex-grow-1 p-4 p-md-6 container-fluid"
     style="max-width: 1400px;"

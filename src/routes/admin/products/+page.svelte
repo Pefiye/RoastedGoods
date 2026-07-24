@@ -6,7 +6,7 @@
   let searchQuery = $state("");
   let currentPage = $state(1);
   const itemsPerPage = 8;
-  
+
   let sortMenuOpen = $state(false);
 
   const sortOptions = [
@@ -55,7 +55,7 @@
 
   <div class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4 mb-5">
-      <!-- Search -->
+
       <div class="position-relative w-100" style="max-width: 400px;">
         <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"></i>
         <input
@@ -69,7 +69,6 @@
         />
       </div>
 
-      <!-- Sort -->
       <div class="d-flex align-items-center gap-3">
         <label class="fsc-3 fw-bold text-muted text-nowrap">Sort by:</label>
         <div class="position-relative">
@@ -100,7 +99,6 @@
       </div>
     </div>
 
-    <!-- Product Grid -->
     {#if paginatedProducts.length === 0}
       <div class="text-center p-5 bg-secondary rounded-4 border border-accent-200 border-dashed">
         <i class="bi bi-box-seam text-muted opacity-25 mb-4 d-block" style="font-size: 4rem;"></i>
@@ -125,7 +123,6 @@
         {/each}
       </div>
 
-      <!-- Pagination -->
       {#if totalPages > 1}
         <div class="d-flex justify-content-center align-items-center mt-5 pt-3 gap-4 border-top border-accent-200">
           <button

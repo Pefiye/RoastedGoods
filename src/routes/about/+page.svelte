@@ -13,7 +13,7 @@
   class="about-container w-100 d-flex flex-column flex-grow-1 flex-shrink-0 bg-accent-100"
   style="padding-top: 100px;"
 >
-  <!-- Hero Section -->
+
   <section
     class="hero-section position-relative d-flex flex-column align-items-center justify-content-center text-center py-20 px-5"
   >
@@ -44,7 +44,6 @@
     </div>
   </section>
 
-  <!-- Bento Grid Section -->
   <section
     class="bento-section py-10 py-md-20 px-5 w-100 d-flex justify-content-center"
   >
@@ -52,7 +51,7 @@
       class="bento-grid animation-pageIn"
       style="max-width: 1200px; width: 100%;"
     >
-      <!-- Box 1: Our Roots (Large) -->
+
       <div
         class="bento-item bg-white p-6 p-md-8 p-lg-10 rounded-5 b-shadow-s border border-accent-200 d-flex flex-column justify-content-between hover-lift item-roots position-relative overflow-hidden"
       >
@@ -81,7 +80,6 @@
         </div>
       </div>
 
-      <!-- Box 2: Ethical Sourcing (Tall) -->
       <div
         class="bento-item bg-accent-500 p-6 p-md-8 p-lg-10 rounded-5 b-shadow-s d-flex flex-column justify-content-between hover-lift item-sourcing text-white position-relative overflow-hidden"
       >
@@ -112,7 +110,6 @@
         </div>
       </div>
 
-      <!-- Box 3: The Roast (Square) -->
       <div
         class="bento-item bg-white p-6 p-md-8 p-lg-10 rounded-5 b-shadow-s border border-accent-200 d-flex flex-column justify-content-between hover-lift item-roast"
       >
@@ -130,7 +127,6 @@
         </div>
       </div>
 
-      <!-- Box 4: Quality (Square) -->
       <div
         class="bento-item bg-dark p-6 p-md-8 p-lg-10 rounded-5 b-shadow-s d-flex flex-column justify-content-center align-items-center text-center hover-lift item-quality text-white position-relative overflow-hidden"
       >
@@ -197,7 +193,6 @@
     flex-shrink: 0;
   }
 
-  /* Bento Grid Layout */
   .bento-grid {
     display: grid;
     gap: 1.5rem;
@@ -210,7 +205,6 @@
       box-shadow 0.3s ease;
   }
 
-  /* Tablet Layout (2 columns) */
   @media (min-width: 768px) {
     .bento-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -234,7 +228,6 @@
     }
   }
 
-  /* Desktop Layout (3 columns) */
   @media (min-width: 992px) {
     .bento-grid {
       grid-template-columns: repeat(3, 1fr);

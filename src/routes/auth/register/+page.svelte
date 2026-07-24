@@ -12,8 +12,6 @@
   let email = $state('');
   let password = $state('');
   let loading = $state(false);
-
-  // Redirect if already logged in
   if (data.session) {
     goto('/menu');
   }
@@ -42,14 +40,12 @@
       loading = false;
       return;
     }
-
-    // Auto-login after signup (email confirmation disabled)
     goto('/menu');
   }
 
   async function handleGoogleLogin() {
     loading = true;
-    
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -68,11 +64,9 @@
 
 <div class="d-flex flex-grow-1 w-100 justify-content-center align-items-center bg-accent-100 py-20">
   <div class="bg-white p-8 p-md-10 rounded-4 b-shadow-s border border-accent-200 w-100 animation-pageIn" style="max-width: 420px;">
-    
+
     <h1 class="fsc-6 fw-black text-accent-500 mb-2 text-center">Join Us</h1>
     <p class="fsc-2 text-muted text-center mb-8">Create your account</p>
-
-
 
     <form onsubmit={(e) => { e.preventDefault(); handleRegister(); }}>
       <div class="d-flex flex-column gap-2 mb-5">

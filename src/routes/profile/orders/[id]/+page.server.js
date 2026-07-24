@@ -23,8 +23,6 @@ export const load = async ({ params, locals }) => {
   if (orderError || !order) {
     throw error(404, 'Order not found');
   }
-
-  // Auto-expire: cancel pending orders older than 20 minutes
   if (order.status === 'pending') {
     const createdAt = new Date(order.created_at);
     const now = new Date();
@@ -40,8 +38,6 @@ export const load = async ({ params, locals }) => {
       order.status = 'cancelled';
     }
   }
-
-  // Calculate remaining time for pending orders
   let expiresIn = null;
   if (order.status === 'pending') {
     const createdAt = new Date(order.created_at);

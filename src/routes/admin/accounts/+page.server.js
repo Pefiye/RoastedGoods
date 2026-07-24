@@ -5,7 +5,7 @@ import { fail } from '@sveltejs/kit';
 
 export const load = async ({ locals }) => {
   const { supabase } = locals;
-  
+
   const { data: profiles } = await supabase
     .from('profiles')
     .select('*')
@@ -18,8 +18,6 @@ export const actions = {
   create: async ({ request, locals }) => {
     const { session, profile } = await locals.safeGetSession();
     if (!session || profile?.role !== 'admin') return fail(403, { error: 'Forbidden' });
-
-    // Initialize admin client to bypass RLS and create users securely
     const supabaseAdmin = createClient(
       publicEnv.PUBLIC_SUPABASE_URL,
       env.SUPABASE_SERVICE_ROLE_KEY
@@ -42,7 +40,7 @@ export const actions = {
 
     return { success: true };
   },
-  
+
   updateRole: async ({ request, locals }) => {
     const { session, profile } = await locals.safeGetSession();
     if (!session || profile?.role !== 'admin') return fail(403, { error: 'Forbidden' });
@@ -64,7 +62,7 @@ export const actions = {
     if (error) return fail(400, { error: error.message });
     return { success: true };
   },
-  
+
   delete: async ({ request, locals }) => {
     const { session, profile } = await locals.safeGetSession();
     if (!session || profile?.role !== 'admin') return fail(403, { error: 'Forbidden' });

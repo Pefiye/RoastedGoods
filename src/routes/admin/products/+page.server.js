@@ -1,7 +1,7 @@
 export const load = async ({ locals, url }) => {
   const { supabase } = locals;
   const sort = url.searchParams.get('sort') || 'name-asc';
-  
+
   const { data: products } = await supabase.from('products').select('*').eq('is_active', true);
   let productsData = products || [];
 
@@ -13,7 +13,7 @@ export const load = async ({ locals, url }) => {
         counts[d.product_id] = (counts[d.product_id] || 0) + d.quantity;
       }
     }
-    
+
     productsData.forEach(p => p.sold = counts[p.id] || 0);
     productsData.sort((a, b) => sort === 'popular' ? b.sold - a.sold : a.sold - b.sold);
   } else {

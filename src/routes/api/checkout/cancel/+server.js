@@ -14,8 +14,6 @@ export const POST = async ({ request, locals }) => {
   if (!orderId) {
     throw error(400, 'Missing orderId');
   }
-
-  // Verify this order belongs to the user and is still pending
   const { data: order, error: orderError } = await locals.supabase
     .from('orders')
     .select('id, user_id, status')
@@ -30,8 +28,6 @@ export const POST = async ({ request, locals }) => {
   if (order.status !== 'pending') {
     throw error(400, 'Only pending orders can be cancelled');
   }
-
-  // Use RPC to bypass RLS and mark as cancelled
   const adminSupabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
   const { error: rpcError } = await adminSupabase.rpc('update_order_status', {
     p_order_id: orderId,

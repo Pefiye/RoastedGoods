@@ -84,7 +84,7 @@
 >
   <div class="w-100 px-5 px-md-10" style="max-width: 800px;">
     {#if orderPlaced}
-      <!-- Order Confirmation -->
+
       <div
         class="bg-white p-8 p-md-10 rounded-4 b-shadow-s border border-accent-200 text-center animation-fadeIn"
       >
@@ -126,7 +126,7 @@
         </div>
       </div>
     {:else}
-      <!-- Checkout Form -->
+
       <h1 class="fsc-6 fw-black text-accent-500 mb-8 animation-slideDown">
         Checkout
       </h1>
@@ -183,7 +183,6 @@
           </div>
         </div>
 
-        <!-- Total & Pay -->
         <div
           class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 animation-slideUp"
         >

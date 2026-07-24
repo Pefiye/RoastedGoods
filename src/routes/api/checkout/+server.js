@@ -17,22 +17,16 @@ export const POST = async ({ request, locals }) => {
   }
 
   const orderId = crypto.randomUUID();
-
-  // 1. Prepare Midtrans Item Details
   const item_details = checkoutItems.map(item => ({
     id: item.product_id,
     price: item.unit_price,
     quantity: item.quantity,
-    name: `${item.name} (${item.variant})`.substring(0, 50) // Midtrans max length is 50
+    name: `${item.name} (${item.variant})`.substring(0, 50)
   }));
-
-  // 2. Initialize Midtrans Snap
   const snap = new midtransClient.Snap({
     isProduction: false,
     serverKey: MIDTRANS_SERVER_KEY
   });
-
-  // 3. Request Snap Token
   const origin = new URL(request.url).origin;
   const parameter = {
     transaction_details: {
@@ -52,8 +46,6 @@ export const POST = async ({ request, locals }) => {
 
   try {
     const transaction = await snap.createTransaction(parameter);
-
-    // 4. Create order in Supabase WITH the token already attached
     const { data: order, error: orderError } = await locals.supabase
       .from('orders')
       .insert({
@@ -67,8 +59,6 @@ export const POST = async ({ request, locals }) => {
       .single();
 
     if (orderError) throw error(500, orderError.message);
-
-    // 5. Create order details in Supabase
     const orderDetails = checkoutItems.map(item => ({
       order_id: order.id,
       product_id: item.product_id,
@@ -83,15 +73,13 @@ export const POST = async ({ request, locals }) => {
       .insert(orderDetails);
 
     if (detailError) throw error(500, detailError.message);
-
-    // 6. Clear the user's cart on successful transaction creation
     if (cartId) {
       await locals.supabase
         .from('cart_details')
         .delete()
         .eq('cart_id', cartId);
     }
-    
+
     return json({
       token: transaction.token,
       orderId: order.id

@@ -13,7 +13,6 @@
 <div class="d-flex flex-column gap-4 animation-pageIn">
   <h1 class="fsc-5 fw-black text-dark mb-2">Dashboard</h1>
 
-  <!-- Stats Row -->
   <div class="row g-4">
     <div class="col-12 col-md-6">
       <div
@@ -43,7 +42,7 @@
   </div>
 
   <div class="row g-4 mt-2">
-    <!-- Active Orders -->
+
     <div class="col-12 col-xl-7">
       <div
         class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 h-100"
@@ -90,7 +89,6 @@
       </div>
     </div>
 
-    <!-- Popular Drinks -->
     <div class="col-12 col-xl-5">
       <div
         class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 h-100"

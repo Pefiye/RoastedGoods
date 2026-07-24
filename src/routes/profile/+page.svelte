@@ -7,24 +7,20 @@
 
   const profile = $derived(page.data.profile);
   const user = $derived(page.data.user);
-  
+
   let username = $state("");
   let savingProfile = $state(false);
   let newPassword = $state("");
   let savingPassword = $state(false);
 
-  let hasPassword = $state(true); // default to "Change Password" until we know
+  let hasPassword = $state(true);
 
   $effect(() => {
     if (!browser || !user) return;
-
-    // Check localStorage first
     if (localStorage.getItem(`has_password_${user.id}`)) {
       hasPassword = true;
       return;
     }
-
-    // Check if user has an email identity (meaning they signed up with email/password)
     const identities = user.identities || [];
     const hasEmailIdentity = identities.some(i => i.provider === "email");
     const isGoogleOnly = identities.length > 0 && identities.every(i => i.provider === "google");
@@ -35,8 +31,6 @@
       hasPassword = true;
     }
   });
-
-  // Sync username from profile data
   let usernameInitialized = false;
   $effect(() => {
     if (profile?.username && !usernameInitialized) {
@@ -58,7 +52,7 @@
       addToast(error.message, "error");
     } else {
       addToast("Profile updated successfully!", "success");
-      await invalidateAll(); // Refresh the page data
+      await invalidateAll();
     }
     savingProfile = false;
   }
@@ -68,7 +62,7 @@
       passwordMsg = { type: "error", text: "Password must be at least 6 characters." };
       return;
     }
-    
+
     savingPassword = true;
 
     const { error } = await supabase.auth.updateUser({ password: newPassword });
@@ -96,7 +90,6 @@
 <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200">
   <h2 class="fsc-5 fw-black text-accent-500 mb-6">Profile Settings</h2>
 
-  <!-- Profile Form -->
   <form onsubmit={(e) => { e.preventDefault(); handleSaveProfile(); }} class="mb-10">
     <div class="mb-5">
       <label for="email" class="fsc-2 fw-bold text-accent-500 mb-2 d-block">Email Address</label>
@@ -126,8 +119,6 @@
       />
     </div>
 
-
-
     <button
       type="submit"
       disabled={savingProfile || username === profile?.username}
@@ -139,7 +130,6 @@
 
   <hr class="border-accent-200 my-8" />
 
-  <!-- Password Form -->
   <form onsubmit={(e) => { e.preventDefault(); handleUpdatePassword(); }}>
     <h3 class="fsc-4 fw-bold text-accent-500 mb-2">
       {hasPassword ? 'Change Password' : 'Add Password'}
@@ -165,8 +155,6 @@
         onblur={(e) => e.target.style.borderColor = ''}
       />
     </div>
-
-
 
     <button
       type="submit"

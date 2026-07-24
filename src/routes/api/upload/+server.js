@@ -25,8 +25,6 @@ export const POST = async ({ request, locals }) => {
     const filename = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
-    // Use admin client to bypass storage RLS and upload directly
     const supabaseAdmin = createClient(
       publicEnv.PUBLIC_SUPABASE_URL,
       env.SUPABASE_SERVICE_ROLE_KEY

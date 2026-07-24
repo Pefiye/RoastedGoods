@@ -6,8 +6,6 @@ export const load = async ({ locals }) => {
   if (!session) {
     throw redirect(303, '/auth/login');
   }
-
-  // Get user's cart with details + product info
   const { data: cart } = await locals.supabase
     .from('carts')
     .select('id')

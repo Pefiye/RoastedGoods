@@ -14,8 +14,6 @@
 
   let selectedVariant = $state(null);
   let addingToCart = $state(false);
-
-  // Initialize selectedVariant when product loads
   $effect(() => {
     if (variants.length > 0 && selectedVariant === null) {
       selectedVariant = variants[0].name;
@@ -34,8 +32,6 @@
     }
 
     addingToCart = true;
-
-    // Get user's cart
     const { data: cart } = await supabase
       .from('carts')
       .select('id')
@@ -46,8 +42,6 @@
       addingToCart = false;
       return;
     }
-
-    // Check if item with same variant already exists in cart
     const { data: existing } = await supabase
       .from('cart_details')
       .select('id, quantity')
@@ -57,13 +51,11 @@
       .single();
 
     if (existing) {
-      // Update quantity
       await supabase
         .from('cart_details')
         .update({ quantity: existing.quantity + 1 })
         .eq('id', existing.id);
     } else {
-      // Insert new cart item
       await supabase
         .from('cart_details')
         .insert({
