@@ -50,6 +50,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Admin Dashboard | RoastedGoods</title>
+</svelte:head>
+
 <div
   class="d-flex d-lg-none flex-column justify-content-center align-items-center bg-secondary h-100dvh w-100 p-5 text-center position-fixed top-0 start-0 z-3"
 >
