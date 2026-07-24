@@ -1,6 +1,6 @@
 # RoastedGoods
 
-**RoastedGoods** is a modern, full-stack coffee shop and e-commerce web application. Built with SvelteKit and Supabase, it provides a seamless shopping experience for customers and robust management tools for administrators and cashiers.
+**RoastedGoods** is a modern, full-stack coffee shop and e-commerce web application. Built with SvelteKit and Supabase, it provides a seamless shopping experience for customers and a management system for administrators and cashiers.
 
 ## Features
 
@@ -16,10 +16,11 @@
 
 ## Tech Stack
 
-- **Frontend:** [SvelteKit](https://kit.svelte.dev/) (Svelte 5)
-- **Styling:** Vanilla SCSS & [Bootstrap Icons](https://icons.getbootstrap.com/)
-- **Backend & Database:** [Supabase](https://supabase.com/) (PostgreSQL, Auth, Realtime)
-- **Payment Processing:** [Midtrans](https://midtrans.com/)
+- **Frontend:** SvelteKit (Svelte 5)
+- **Styling:** SCSS & Bootstrap
+- **Backend:** SvelteKit & Node
+- **Database:** Supabase (PostgreSQL, Auth, Realtime)
+- **Payment Gateway:** Midtrans
 - **Build Tool:** Vite
 
 ## Project Structure
@@ -37,37 +38,6 @@ src/
 │   ├── menu/          # Product catalog with pagination and filtering
 │   └── profile/       # User profile management
 ```
-
-## Installation & Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd RoastedGoods
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Variables:**
-   Create a `.env` file in the root directory and add the following keys:
-   ```env
-   PUBLIC_SUPABASE_URL=your_supabase_project_url
-   PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-   
-   # Midtrans Keys
-   MIDTRANS_SERVER_KEY=your_midtrans_server_key
-   PUBLIC_MIDTRANS_CLIENT_KEY=your_midtrans_client_key
-   ```
-
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-   Navigate to `http://localhost:5173` to view the application.
 
 ## Authentication Flow
 The application enforces strict server-side route protection in `hooks.server.js`.
