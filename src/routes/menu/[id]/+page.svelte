@@ -107,7 +107,7 @@
               >
                 {variant.name}
                 {#if variant.price_add > 0}
-                  <span class="fsc-1">(+{formatPrice(variant.price_add, $currency, $exchangeRate)})</span>
+                  <span class="fsc-1 {selectedVariant === variant.name ? 'text-white' : 'text-dark'}">(+{formatPrice(variant.price_add, $currency, $exchangeRate)})</span>
                 {/if}
               </button>
             {/each}
