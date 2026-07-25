@@ -112,7 +112,7 @@
         </div>
       {/each}
     {:else}
-      {#each paginatedProducts as product}
+      {#each paginatedProducts as product, index}
         <a
           href="/menu/{product.id}"
           class="d-flex w-100 flex-column align-items-center"
@@ -122,6 +122,8 @@
             alt={product.name}
             class="rounded-circle ratio-1 hover-scale shadow-sm"
             style="object-fit: cover; width: 140px; max-width: 100%;"
+            loading={index < 4 ? "eager" : "lazy"}
+            decoding="async"
           />
           <p class="w-100 fsc-3 text-center fw-medium mt-5 text-accent-500">
             {product.name}
