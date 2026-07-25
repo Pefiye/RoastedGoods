@@ -1,3 +1,5 @@
+@use "sass:color";
+@use "sass:map";
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -21,11 +23,11 @@ $font-size-5xl: clamp(2.25rem, 7vw, 6rem);
 $font-size-6xl: clamp(2.5rem, 8vw, 8rem);
 
 $colors: (
-  primary: #ffffff,
-  secondary: #EAF0F6,
-  accent: #0d1543,
-  black: #000,
-  white: #fff
+  "primary": #ffffff,
+  "secondary": #EAF0F6,
+  "accent": #0d1543,
+  "black": #000,
+  "white": #fff
 );
 
 $color-levels: (
@@ -45,11 +47,11 @@ $color-levels: (
 );
 
 @function tint-color($color, $weight) {
-  @return mix(white, $color, $weight);
+  @return color.mix(white, $color, $weight);
 }
 
 @function shade-color($color, $weight) {
-  @return mix(black, $color, $weight);
+  @return color.mix(black, $color, $weight);
 }
 
 @function color-level($color, $level) {
@@ -58,15 +60,13 @@ $color-levels: (
   }
 
   @else if $level < 500 {
-    $weight: (
-      500 - $level) / 400 * 100%;
+    $weight: calc((500 - $level) / 400 * 100%);
     @return tint-color($color, $weight
   );
 }
 
 @else {
-  $weight: (
-    $level - 500) / 400 * 100%;
+  $weight: calc(($level - 500) / 400 * 100%);
   @return shade-color($color, $weight
 );
 }
@@ -109,7 +109,7 @@ $breakpoints: (
   padding: 0;
   box-sizing: border-box;
   font-family: $font-family;
-  color: map-get($colors, text);
+  color: map.get($colors, "black");
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -125,7 +125,7 @@ $breakpoints: (
 
 ::selection {
   color: #fff;
-  background: map-get($colors, accent);
+  background: map.get($colors, "accent");
 }
 
 input::-webkit-outer-spin-button,
@@ -152,7 +152,7 @@ img {
 }
 
 body {
-  background-color: map-get($colors, accent);
+  background-color: map.get($colors, "accent");
   width: 100%;
   min-height: 100dvh;
   display: flex;
