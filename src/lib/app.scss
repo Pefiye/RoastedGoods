@@ -109,7 +109,6 @@ $breakpoints: (
   padding: 0;
   box-sizing: border-box;
   font-family: $font-family;
-  color: map.get($colors, "black");
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -153,6 +152,7 @@ img {
 
 body {
   background-color: map.get($colors, "accent");
+  color: map.get($colors, "black");
   width: 100%;
   min-height: 100dvh;
   display: flex;
