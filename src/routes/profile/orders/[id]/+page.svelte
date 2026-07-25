@@ -318,7 +318,17 @@
         </div>
       {/if}
 
-      {#if order.status === "paid" || order.status === "done" || order.status === "cancelled"}
+      {#if order.status === "paid"}
+        <hr class="border-accent-200 my-5 opacity-25" />
+        <div class="bg-accent-100 p-4 rounded-3 border border-accent-200 d-flex gap-3 align-items-start">
+          <i class="bi bi-info-circle-fill text-accent-500 fsc-3 mt-1"></i>
+          <p class="fsc-2 text-dark mb-0 fw-medium">
+            Your payment was successful! Please head over to the cashier or counter so we can start preparing your order.
+          </p>
+        </div>
+      {/if}
+
+      {#if order.status === "done" || order.status === "cancelled"}
         <hr class="border-accent-200 my-5 opacity-25" />
         <button
           onclick={orderAgain}
