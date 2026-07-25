@@ -1,13 +1,21 @@
 @use "sass:color";
 @use "sass:map";
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Force font-display: swap for Bootstrap Icons to save ~860ms */
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("bootstrap-icons/font/fonts/bootstrap-icons.woff2?30af91bf14e37666a085fb8a161ff36d") format("woff2"),
+       url("bootstrap-icons/font/fonts/bootstrap-icons.woff?30af91bf14e37666a085fb8a161ff36d") format("woff");
+  font-display: swap;
+}
 
 @font-face {
   font-family: 'Bright';
   src: url('/fonts/bright/Bright.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 $font-family: 'Inter', sans-serif;
@@ -96,6 +104,16 @@ $color-levels: (
   }
 }
 
+.text-white {
+  color: #ffffff !important;
+}
+.text-dark {
+  color: #000000 !important;
+}
+.text-muted {
+  color: #a1a5b7 !important;
+}
+
 $breakpoints: (
   sm: 576px,
   md: 768px,
@@ -142,6 +160,7 @@ textarea {
   border: none;
   background-color: transparent;
   outline: none;
+  color: inherit;
 }
 
 img {

@@ -5,13 +5,10 @@ export default defineConfig({
 	plugins: [
 		sveltekit()
 	],
-	css: {
-		transformer: 'lightningcss',
-		lightningcss: {
-			errorRecovery: true
-		}
-	},
 	build: {
-		cssMinify: 'lightningcss'
+		cssMinify: 'esbuild'
+	},
+	preview: {
+		allowedHosts: true
 	}
 });

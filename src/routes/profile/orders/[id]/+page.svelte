@@ -243,6 +243,8 @@
                 alt={item.product_name}
                 class="rounded-3 object-fit-cover border border-accent-200 flex-shrink-0"
                 style="width: 60px; height: 60px;"
+                loading="lazy"
+                decoding="async"
               />
             {:else}
               <div
