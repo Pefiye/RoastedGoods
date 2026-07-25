@@ -1,1 +1,0 @@
-import{X as e}from"./CRo-mIXZ.js";import"./C-Dkqz7e.js";var t=e([]);function n(e,n=`success`,i=2500,a=null){let o=crypto.randomUUID();t.update(t=>[...t,{id:o,text:e,type:n,duration:i,icon:a}]),setTimeout(()=>{r(o)},i)}function r(e){t.update(t=>t.filter(t=>t.id!==e))}export{t as n,n as t};
