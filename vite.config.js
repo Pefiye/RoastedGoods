@@ -5,6 +5,11 @@ export default defineConfig({
 	plugins: [
 		sveltekit()
 	],
+	css: {
+		lightningcss: {
+			errorRecovery: true
+		}
+	},
 	build: {
 		cssMinify: 'esbuild'
 	},
