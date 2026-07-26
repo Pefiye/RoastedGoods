@@ -61,7 +61,7 @@
         href="/profile"
         class="sidebar-link fsc-3 fw-bold py-3 py-md-4 rounded-4 border border-2 border-accent-200 text-decoration-none text-nowrap {!isOrders
           ? 'bg-accent-500 text-white border-accent-500'
-          : 'bg-white text-dark'}"
+          : 'bg-white text-accent-500'}"
       >
         <i class="bi bi-person-fill me-2"></i> My Profile
       </a>
@@ -69,7 +69,7 @@
         href="/profile/orders"
         class="sidebar-link fsc-3 fw-bold py-3 py-md-4 rounded-4 border border-2 border-accent-200 text-decoration-none text-nowrap {isOrders
           ? 'bg-accent-500 text-white border-accent-500'
-          : 'bg-white text-dark'}"
+          : 'bg-white text-accent-500'}"
       >
         <i class="bi bi-receipt-cutoff me-2"></i> My Orders
       </a>

@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>Our Story | CoffeeGoods</title>
+  <title>RoastedGoods</title>
 </svelte:head>
 
 <Navbar />
@@ -28,7 +28,7 @@
       style="max-width: 800px; margin-top: 40px;"
     >
       <h1
-        class="fw-black fsc-8 fsc-md-9 text-dark mb-4 lh-sm"
+        class="fw-black fsc-8 fsc-md-9 text-accent-500 mb-4 lh-sm"
         style="letter-spacing: -1.5px;"
       >
         Brewing <span class="text-accent-500">Passion</span> One Cup at a Time.
@@ -67,7 +67,7 @@
           >
             <i class="bi bi-cup-hot-fill fsc-4 text-accent-500"></i>
           </div>
-          <h2 class="fw-black fsc-5 text-dark mb-4">Our Roots</h2>
+          <h2 class="fw-black fsc-5 text-accent-500 mb-4">Our Roots</h2>
           <p
             class="fsc-2 text-muted"
             style="line-height: 1.7; max-width: 500px;"
@@ -119,7 +119,7 @@
           <i class="bi bi-fire fsc-4 text-accent-500 animation-pulse"></i>
         </div>
         <div>
-          <h2 class="fw-black fsc-5 text-dark mb-3">The Art of Roasting</h2>
+          <h2 class="fw-black fsc-5 text-accent-500 mb-3">The Art of Roasting</h2>
           <p class="fsc-2 text-muted mb-0" style="line-height: 1.7;">
             A delicate dance of time and temperature to unlock maximum sweetness
             and perfect balance in every batch.

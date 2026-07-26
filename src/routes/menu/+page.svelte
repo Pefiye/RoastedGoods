@@ -74,19 +74,19 @@
         <button
           class="btn {filterType === 'all'
             ? 'bg-accent-500 text-white border-accent-500'
-            : 'bg-white text-dark border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
+            : 'bg-white text-accent-500 border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
           onclick={() => { filterType = 'all'; currentPage = 1; }}>All</button
         >
         <button
           class="btn {filterType === 'coffee'
             ? 'bg-accent-500 text-white border-accent-500'
-            : 'bg-white text-dark border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
+            : 'bg-white text-accent-500 border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
           onclick={() => { filterType = 'coffee'; currentPage = 1; }}>Coffee</button
         >
         <button
           class="btn {filterType === 'non-coffee'
             ? 'bg-accent-500 text-white border-accent-500'
-            : 'bg-white text-dark border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
+            : 'bg-white text-accent-500 border-accent-200'} hover-button-alt border border-2 rounded-pill px-4 py-2 fw-bold text-nowrap transition-all"
           onclick={() => { filterType = 'non-coffee'; currentPage = 1; }}>Non-Coffee</button
         >
       </div>
@@ -143,7 +143,7 @@
             class="bi bi-cup-hot text-muted opacity-25 mb-4"
             style="font-size: 5rem;"
           ></i>
-          <h3 class="fsc-4 fw-bold text-dark mb-2">No products found!</h3>
+          <h3 class="fsc-4 fw-bold text-accent-500 mb-2">No products found!</h3>
           <p class="fsc-3 text-muted m-0 text-center">
             {searchQuery
               ? "Try a different search term or filter."
@@ -170,7 +170,7 @@
         <i class="bi bi-chevron-left pe-0 {currentPage === 1 ? 'text-muted' : ''}"></i>
       </button>
 
-      <span class="fsc-3 fw-bold text-dark">
+      <span class="fsc-3 fw-bold text-accent-500">
         Page {currentPage} of {totalPages}
       </span>
 

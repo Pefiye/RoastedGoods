@@ -197,7 +197,7 @@
       <div
         class="bg-white p-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column justify-content-center align-items-center text-center"
       >
-        <h3 class="fsc-4 fw-bold text-dark mb-4">Order Status</h3>
+        <h3 class="fsc-4 fw-bold text-accent-500 mb-4">Order Status</h3>
         <span
           class="px-4 py-2 rounded-pill fw-bold fsc-3 text-uppercase {getStatusColor(
             order.status,
@@ -225,7 +225,7 @@
         class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-5 pb-5 border-bottom border-accent-200 gap-4"
       >
         <div class="d-flex flex-column">
-          <span class="fsc-4 fw-bold text-dark">Order Items</span>
+          <span class="fsc-4 fw-bold text-accent-500">Order Items</span>
           <span class="fsc-2 text-muted">{formatDate(order.created_at)}</span>
         </div>
       </div>
@@ -255,14 +255,14 @@
               </div>
             {/if}
             <div class="d-flex flex-column flex-grow-1">
-              <span class="fsc-3 fw-bold text-dark lh-sm"
+              <span class="fsc-3 fw-bold text-accent-500 lh-sm"
                 >{item.product_name}</span
               >
               <span class="fsc-2 text-muted"
                 >{item.variant} × {item.quantity}</span
               >
             </div>
-            <span class="fw-bold fsc-3 text-dark text-nowrap"
+            <span class="fw-bold fsc-3 text-accent-500 text-nowrap"
               >{formatPrice(
                 item.unit_price * item.quantity,
                 $currency,
@@ -278,7 +278,7 @@
       class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 animation-slideUp"
     >
       <div class="d-flex justify-content-between align-items-center">
-        <span class="fsc-3 fw-bold text-dark">Total</span>
+        <span class="fsc-3 fw-bold text-accent-500">Total</span>
         <span class="fsc-3 fw-bolder text-accent-500"
           >{formatPrice(order.total_price, $currency, $exchangeRate)}</span
         >
@@ -308,7 +308,7 @@
             <button
               onclick={cancelOrder}
               disabled={retrying || cancelling}
-              class="px-6 py-3 fw-bold rounded-pill fsc-2 border border-2 border-danger text-danger text-nowrap d-flex align-items-center justify-content-center gap-2 bg-transparent hover-button-danger"
+              class="px-6 py-3 fw-bold rounded-pill fsc-2 border border-2 border-danger text-danger text-nowrap d-flex align-items-center justify-content-center gap-2 bg-white hover-button-danger"
             >
               {#if cancelling}
                 <span class="spinner-border spinner-border-sm"></span> Cancelling...
@@ -324,7 +324,7 @@
         <hr class="border-accent-200 my-5 opacity-25" />
         <div class="bg-accent-100 p-4 rounded-3 border border-accent-200 d-flex gap-3 align-items-start">
           <i class="bi bi-info-circle-fill text-accent-500 fsc-3 mt-1"></i>
-          <p class="fsc-2 text-dark mb-0 fw-medium">
+          <p class="fsc-2 text-accent-500 mb-0 fw-medium">
             Your payment was successful! Please head over to the cashier or counter so we can start preparing your order.
           </p>
         </div>

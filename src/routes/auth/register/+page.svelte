@@ -134,7 +134,7 @@
     <button
       type="button"
       onclick={handleGoogleLogin}
-      class="w-100 py-3 mb-6 fw-bold rounded-pill fsc-3 border border-2 border-accent-200 bg-white text-dark d-flex justify-content-center align-items-center gap-3 hover-bg-accent-100"
+      class="w-100 py-3 mb-6 fw-bold rounded-pill fsc-3 border border-2 border-accent-200 bg-white text-accent-500 d-flex justify-content-center align-items-center gap-3 hover-bg-accent-100"
       style="transition: background-color 0.2s;"
     >
       <svg width="24" height="24" viewBox="0 0 48 48">

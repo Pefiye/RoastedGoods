@@ -98,12 +98,12 @@
                   class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {$currency ===
                   'IDR'
                     ? 'fw-black text-accent-500'
-                    : 'fw-medium text-dark'}"
+                    : 'fw-medium text-accent-500'}"
                 >
                   <i
-                    class="bi bi-check2 opacity-{$currency === 'IDR'
-                      ? '100'
-                      : '0'} me-2"
+                    class="bi bi-check2 {$currency === 'IDR'
+                      ? 'opacity-100'
+                      : 'opacity-0'} me-2"
                   ></i> IDR (Rp)
                 </button>
                 <button
@@ -114,12 +114,12 @@
                   class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {$currency ===
                   'USD'
                     ? 'fw-black text-accent-500'
-                    : 'fw-medium text-dark'}"
+                    : 'fw-medium text-accent-500'}"
                 >
                   <i
-                    class="bi bi-check2 opacity-{$currency === 'USD'
-                      ? '100'
-                      : '0'} me-2"
+                    class="bi bi-check2 {$currency === 'USD'
+                      ? 'opacity-100'
+                      : 'opacity-0'} me-2"
                   ></i> USD ($)
                 </button>
               </div>
@@ -170,12 +170,12 @@
                   class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {$currency ===
                   'IDR'
                     ? 'fw-black text-accent-500'
-                    : 'fw-medium text-dark'}"
+                    : 'fw-medium text-accent-500'}"
                 >
                   <i
-                    class="bi bi-check2 opacity-{$currency === 'IDR'
-                      ? '100'
-                      : '0'} me-2"
+                    class="bi bi-check2 {$currency === 'IDR'
+                      ? 'opacity-100'
+                      : 'opacity-0'} me-2"
                   ></i> IDR (Rp)
                 </button>
                 <button
@@ -186,12 +186,12 @@
                   class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {$currency ===
                   'USD'
                     ? 'fw-black text-accent-500'
-                    : 'fw-medium text-dark'}"
+                    : 'fw-medium text-accent-500'}"
                 >
                   <i
-                    class="bi bi-check2 opacity-{$currency === 'USD'
-                      ? '100'
-                      : '0'} me-2"
+                    class="bi bi-check2 {$currency === 'USD'
+                      ? 'opacity-100'
+                      : 'opacity-0'} me-2"
                   ></i> USD ($)
                 </button>
               </div>

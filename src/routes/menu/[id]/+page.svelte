@@ -90,7 +90,7 @@
 
     <div class="d-flex flex-column w-100 w-md-50 px-10 animation-slideUp">
       <h1 class="fsc-5 fw-bold text-accent-500 mb-2">{product.name}</h1>
-      <p class="fsc-3 fw-medium text-dark mb-5">{formatPrice(currentPrice(), $currency, $exchangeRate)}</p>
+      <p class="fsc-3 fw-medium text-accent-500 mb-5">{formatPrice(currentPrice(), $currency, $exchangeRate)}</p>
       <p class="fsc-2 text-black-300 mb-8" style="max-width: 500px;">
         {product.description}
       </p>
@@ -101,13 +101,13 @@
           <div class="d-flex gap-3 flex-wrap">
             {#each variants as variant}
               <button
-                class="px-5 py-2 fw-medium rounded-pill border border-2 text-nowrap {selectedVariant === variant.name ? 'bg-accent-500 text-white border-accent-500' : 'bg-transparent text-dark border-accent-200'}"
+                class="px-5 py-2 fw-medium rounded-pill border border-2 text-nowrap {selectedVariant === variant.name ? 'bg-accent-500 text-white border-accent-500' : 'bg-transparent text-accent-500 border-accent-200'}"
                 onclick={() => selectedVariant = variant.name}
                 style="transition: all 0.2s;"
               >
                 {variant.name}
                 {#if variant.price_add > 0}
-                  <span class="fsc-1 {selectedVariant === variant.name ? 'text-white' : 'text-dark'}">(+{formatPrice(variant.price_add, $currency, $exchangeRate)})</span>
+                  <span class="fsc-1 {selectedVariant === variant.name ? 'text-white' : 'text-accent-500'}">(+{formatPrice(variant.price_add, $currency, $exchangeRate)})</span>
                 {/if}
               </button>
             {/each}

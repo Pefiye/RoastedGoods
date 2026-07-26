@@ -159,9 +159,9 @@
     <button
       type="submit"
       disabled={savingPassword}
-      class="py-3 px-8 fw-bold rounded-pill hover-button fsc-3 border border-2 border-accent-500 d-inline-flex justify-content-center align-items-center bg-white text-dark"
+      class="py-3 px-8 fw-bold rounded-pill hover-button-alt fsc-3 border border-2 border-accent-500 d-inline-flex justify-content-center align-items-center"
     >
-      {savingPassword ? 'Updating...' : (hasPassword ? 'Update Password' : 'Set Password')}
+      {savingPassword ? 'Updating...' : (hasPassword ? 'Change Password' : 'Set Password')}
     </button>
   </form>
 </div>

@@ -23,7 +23,7 @@
   function getStatusColor(status) {
     switch (status) {
       case "pending":
-        return "text-dark bg-warning";
+        return "text-white bg-warning";
       case "paid":
         return "text-accent-500 bg-accent-150";
       case "preparing":
@@ -68,7 +68,7 @@
     >
       <i class="bi bi-caret-left-fill fsc-4"></i>
     </a>
-    <h1 class="fsc-4 fw-black text-dark m-0">
+    <h1 class="fsc-4 fw-black text-accent-500 m-0">
       Order <span class="text-accent-500">#{order.id.split("-")[0]}</span>
     </h1>
   </div>
@@ -82,7 +82,7 @@
         <div
           class="d-flex justify-content-between align-items-center mb-5 pb-4 border-bottom border-accent-200"
         >
-          <span class="fsc-4 fw-black text-dark">Order Items</span>
+          <span class="fsc-4 fw-black text-accent-500">Order Items</span>
           <span class="fsc-2 text-muted">{formatDate(order.created_at)}</span>
         </div>
 
@@ -107,7 +107,7 @@
                 </div>
               {/if}
               <div class="d-flex flex-column flex-grow-1">
-                <span class="fsc-3 fw-bold text-dark lh-sm"
+                <span class="fsc-3 fw-bold text-accent-500 lh-sm"
                   >{item.product_name}</span
                 >
                 <span class="fsc-2 text-muted">{item.variant}</span>
@@ -126,7 +126,7 @@
         <div
           class="d-flex justify-content-between align-items-center pt-4 border-top border-accent-200 mt-auto"
         >
-          <span class="fsc-3 fw-bold text-dark">Total Paid</span>
+          <span class="fsc-3 fw-bold text-accent-500">Total Paid</span>
           <span class="fsc-4 fw-black text-accent-500">
             {formatPrice(order.total_price, $currency, $exchangeRate)}
           </span>
@@ -141,7 +141,7 @@
       >
         <div class="d-flex flex-column">
           <span class="fsc-2 text-muted fw-medium mb-1">Customer</span>
-          <span class="fsc-3 fw-bold text-dark"
+          <span class="fsc-3 fw-bold text-accent-500"
             >{order.profiles?.username || "Unknown"}</span
           >
         </div>

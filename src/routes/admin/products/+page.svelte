@@ -47,7 +47,7 @@
 
 <div class="d-flex flex-column gap-4 animation-pageIn">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fsc-5 fw-black text-dark m-0">Products</h1>
+    <h1 class="fsc-5 fw-black text-accent-500 m-0">Products</h1>
     <a href="/admin/products/new" class="px-5 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 text-nowrap hover-button-alt d-flex align-items-center gap-2 text-decoration-none">
       <i class="bi bi-plus-lg"></i> Add Product
     </a>
@@ -74,7 +74,7 @@
         <div class="position-relative">
           <button 
             onclick={() => (sortMenuOpen = !sortMenuOpen)}
-            class="px-4 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 hover-button text-nowrap d-flex align-items-center justify-content-between gap-3 text-dark bg-transparent"
+            class="px-4 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 hover-button text-nowrap d-flex align-items-center justify-content-between gap-3"
             style="min-width: 150px;"
           >
             {currentSortLabel} <i class="bi bi-chevron-down"></i>
@@ -88,7 +88,7 @@
               {#each sortOptions as option}
                 <button 
                   onclick={() => handleSortChange({ target: { value: option.value } })}
-                  class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {data.sort === option.value ? 'fw-black text-accent-500' : 'fw-medium text-dark'}"
+                  class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {data.sort === option.value ? 'fw-black text-accent-500' : 'fw-medium text-accent-500'}"
                 >
                   {option.label}
                 </button>
@@ -115,7 +115,7 @@
               </div>
               <div class="d-flex flex-column gap-1 flex-grow-1">
                 <span class="badge bg-white text-accent-500 border border-accent-200 rounded-pill px-2 py-1 w-max fsc-1 fw-bold text-uppercase mb-1">{product.category}</span>
-                <span class="fsc-3 fw-bold text-dark lh-sm text-truncate" title={product.name}>{product.name}</span>
+                <span class="fsc-3 fw-bold text-accent-500 lh-sm text-truncate" title={product.name}>{product.name}</span>
                 <span class="fsc-4 fw-black text-accent-500 mt-auto">{formatIDR(product.base_price)}</span>
               </div>
             </div>
@@ -134,7 +134,7 @@
           >
             <i class="bi bi-chevron-left {currentPage === 1 ? 'text-muted' : ''}"></i>
           </button>
-          <span class="fsc-3 fw-bold text-dark">Page {currentPage} of {totalPages}</span>
+          <span class="fsc-3 fw-bold text-accent-500">Page {currentPage} of {totalPages}</span>
           <button
             class="btn border border-2 rounded-circle d-flex justify-content-center align-items-center p-0 flex-shrink-0 transition-all {currentPage === totalPages ? 'border-accent-200 bg-accent-100 opacity-50 cursor-default' : 'hover-button-alt border-accent-200'}"
             style="width: 40px; height: 40px;"

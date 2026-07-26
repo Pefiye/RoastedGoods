@@ -43,7 +43,7 @@
   <title>RoastedGoods</title>
 </svelte:head>
 
-<div class="d-flex flex-column flex-grow-1 w-100 min-vh-100 bg-accent-100 text-dark font-sans">
+<div class="d-flex flex-column flex-grow-1 w-100 min-vh-100 bg-accent-100 text-accent-500 font-sans">
 
   <nav
     class="navbar bg-white border-bottom border-accent-200 sticky-top b-shadow-s z-3 py-3"
@@ -69,7 +69,7 @@
 
       <div class="d-flex align-items-center gap-4">
         <span class="fsc-2 text-muted fw-medium d-none d-sm-block">
-          Welcome, <span class="fw-bold text-dark"
+          Welcome, <span class="fw-bold text-accent-500"
             >{$page.data.profile?.username || "Cashier"}</span
           >
         </span>
