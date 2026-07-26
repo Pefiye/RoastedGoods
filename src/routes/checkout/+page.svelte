@@ -3,7 +3,7 @@
   import Navbar from "$lib/components/Navbar.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import { supabase } from "$lib/supabase.js";
-  import { goto, invalidateAll } from "$app/navigation";
+  import { goto } from "$app/navigation";
   import { currency, exchangeRate, formatPrice } from "$lib/stores/currency.js";
 
   let { data } = $props();
@@ -61,19 +61,15 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ orderId: result.orderId }),
           });
-          await invalidateAll();
           goto(`/profile/orders/${result.orderId}`);
         },
         onPending: async function (paymentResult) {
-          await invalidateAll();
           goto(`/profile/orders/${result.orderId}`);
         },
         onError: async function (paymentResult) {
-          await invalidateAll();
           goto(`/profile/orders/${result.orderId}`);
         },
         onClose: async function () {
-          await invalidateAll();
           goto(`/profile/orders/${result.orderId}`);
         },
       });
