@@ -19,6 +19,12 @@ export const handle = async ({ event, resolve }) => {
   event.locals.safeGetSession = async () => {
     if (safeGetSessionResult !== null) return safeGetSessionResult;
 
+    const { data: { session: fastSession } } = await event.locals.supabase.auth.getSession();
+    if (!fastSession) {
+      safeGetSessionResult = { session: null, user: null, profile: null };
+      return safeGetSessionResult;
+    }
+
     const { data: { user }, error } = await event.locals.supabase.auth.getUser();
     if (error || !user) {
       safeGetSessionResult = { session: null, user: null, profile: null };
@@ -41,28 +47,24 @@ export const handle = async ({ event, resolve }) => {
     safeGetSessionResult = { session, user, profile };
     return safeGetSessionResult;
   };
-  if (!event.url.pathname.startsWith('/auth') && !event.url.pathname.startsWith('/api')) {
-    const { session, profile } = await event.locals.safeGetSession();
-    const path = event.url.pathname;
-    if (path.startsWith('/admin')) {
-      if (!session) throw redirect(303, '/auth/login');
-      if (profile?.role !== 'admin') {
-        throw redirect(303, profile?.role === 'cashier' ? '/cashier' : '/');
+  const path = event.url.pathname;
+  if (!path.startsWith('/auth') && !path.startsWith('/api')) {
+    const isProtected = path.startsWith('/admin') || path.startsWith('/cashier') || path.startsWith('/checkout') || path.startsWith('/profile');
+    
+    if (isProtected) {
+      const { session, profile } = await event.locals.safeGetSession();
+      
+      if (path.startsWith('/admin')) {
+        if (!session) throw redirect(303, '/auth/login');
+        if (profile?.role !== 'admin') throw redirect(303, profile?.role === 'cashier' ? '/cashier' : '/');
       }
-    }
-    if (path.startsWith('/cashier')) {
-      if (!session) throw redirect(303, '/auth/login');
-      if (profile?.role === 'admin') {
-        throw redirect(303, '/admin');
-      } else if (profile?.role !== 'cashier') {
-        throw redirect(303, '/');
+      else if (path.startsWith('/cashier')) {
+        if (!session) throw redirect(303, '/auth/login');
+        if (profile?.role === 'admin') throw redirect(303, '/admin');
+        else if (profile?.role !== 'cashier') throw redirect(303, '/');
       }
-    }
-    if (session) {
-      if (profile?.role === 'admin' && !path.startsWith('/admin')) {
-        throw redirect(303, '/admin');
-      } else if (profile?.role === 'cashier' && !path.startsWith('/cashier')) {
-        throw redirect(303, '/cashier');
+      else if (!session) {
+        throw redirect(303, '/auth/login');
       }
     }
   }
