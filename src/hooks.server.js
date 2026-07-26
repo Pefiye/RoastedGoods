@@ -15,15 +15,20 @@ export const handle = async ({ event, resolve }) => {
     }
   });
 
+  let safeGetSessionResult = null;
   event.locals.safeGetSession = async () => {
+    if (safeGetSessionResult !== null) return safeGetSessionResult;
+
     const { data: { user }, error } = await event.locals.supabase.auth.getUser();
     if (error || !user) {
-      return { session: null, user: null, profile: null };
+      safeGetSessionResult = { session: null, user: null, profile: null };
+      return safeGetSessionResult;
     }
 
     const { data: { session } } = await event.locals.supabase.auth.getSession();
     if (!session) {
-      return { session: null, user: null, profile: null };
+      safeGetSessionResult = { session: null, user: null, profile: null };
+      return safeGetSessionResult;
     }
     const supabaseAdmin = createClient(PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || (await import('$env/static/private')).SUPABASE_SERVICE_ROLE_KEY);
 
@@ -33,7 +38,8 @@ export const handle = async ({ event, resolve }) => {
       .eq('id', user.id)
       .single();
 
-    return { session, user, profile };
+    safeGetSessionResult = { session, user, profile };
+    return safeGetSessionResult;
   };
   if (!event.url.pathname.startsWith('/auth') && !event.url.pathname.startsWith('/api')) {
     const { session, profile } = await event.locals.safeGetSession();
