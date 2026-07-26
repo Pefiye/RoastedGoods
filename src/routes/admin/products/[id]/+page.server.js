@@ -1,19 +1,23 @@
 import { error, redirect } from '@sveltejs/kit';
 
-export const load = async ({ params, locals }) => {
-  if (params.id === 'new') {
-    return { product: null };
-  }
+export const load = ({ params, locals }) => {
+  const getProduct = async () => {
+    if (params.id === 'new') {
+      return null;
+    }
 
-  const { data: product } = await locals.supabase
-    .from('products')
-    .select('*')
-    .eq('id', params.id)
-    .single();
+    const { data: product } = await locals.supabase
+      .from('products')
+      .select('*')
+      .eq('id', params.id)
+      .single();
 
-  if (!product) throw error(404, 'Product not found');
+    if (!product) throw error(404, 'Product not found');
 
-  return { product };
+    return product;
+  };
+
+  return { streamed: { product: getProduct() } };
 };
 
 export const actions = {

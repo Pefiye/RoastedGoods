@@ -14,9 +14,16 @@
 
   let { data } = $props();
 
-  let cartItems = $state(data.cartItems);
+  let cartItems = $state([]);
+  let cartId = $state(null);
+  let isLoading = $state(true);
+
   $effect(() => {
-    cartItems = data.cartItems;
+    data.streamed.cartData.then((res) => {
+      cartItems = res.cartItems;
+      cartId = res.cartId;
+      isLoading = false;
+    });
   });
 
   const totalPrice = $derived(
@@ -68,86 +75,64 @@
       <div
         class="bg-white p-5 p-md-8 rounded-4 b-shadow-s d-flex flex-column gap-5 border border-accent-200 stagger-children"
       >
-        {#each cartItems as item (item.id)}
-          <div
-            class="d-flex w-100 align-items-start pb-5 border-bottom border-accent-200 last-border-0"
-          >
-            <div class="d-flex flex-column flex-sm-row w-100 gap-5">
-
-              <div class="position-relative flex-shrink-0">
-                <img
-                  src={item.image_url}
-                  alt={item.name}
-                  class="rounded-3 object-fit-cover border border-accent-200"
-                  style="width: 100px; height: 100px;"
-                />
-              </div>
-
-              <div class="d-flex flex-column flex-grow-1">
-                <span
-                  class="fsc-3 fw-bold text-accent-500 text-break lh-sm"
-                  style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
-                  >{item.name}</span
-                >
-                {#if item.variant}
-                  <span class="fsc-2 text-muted mt-2">{item.variant}</span>
-                {/if}
-                <div class="d-flex align-items-center gap-3 mt-3">
-                  <span class="fw-bold fsc-3 text-accent-500"
-                    >{formatPrice(
-                      item.unit_price,
-                      $currency,
-                      $exchangeRate,
-                    )}</span
-                  >
+        {#if isLoading}
+          {#each Array(2) as _}
+            <div class="d-flex w-100 align-items-start pb-5 border-bottom border-accent-200 last-border-0 placeholder-glow">
+              <div class="d-flex flex-column flex-sm-row w-100 gap-5">
+                <div class="position-relative flex-shrink-0">
+                  <div class="rounded-3 placeholder bg-accent-200" style="width: 100px; height: 100px;"></div>
                 </div>
-              </div>
-
-              <div
-                class="d-flex flex-column align-items-sm-end justify-content-end mt-3 mt-sm-0"
-                style="min-width: 100px;"
-              >
-                <div
-                  class="mt-auto w-max d-flex align-items-center border border-2 border-accent-300 rounded-pill px-2 py-1 bg-white"
-                >
-                  {#if item.quantity > 1}
-                    <button
-                      class="btn btn-sm p-0 px-2 fw-bold fsc-2 border-0 bg-transparent text-accent-500"
-                      style="width: 32px;"
-                      onclick={() => updateQuantity(item.id, -1)}>-</button
-                    >
-                  {:else}
-                    <button
-                      title="Remove item"
-                      class="btn btn-sm p-0 px-2 fw-bold border-0 bg-transparent text-danger"
-                      style="width: 32px;"
-                      onclick={() => deleteItem(item.id)}
-                    >
-                      <i class="bi bi-trash-fill text-accent-500 fsc-2"></i>
-                    </button>
-                  {/if}
-                  <span class="px-3 fw-bold fsc-3 text-accent-500"
-                    ><AnimatedNumber value={item.quantity} /></span
-                  >
-                  <button
-                    class="btn btn-sm p-0 px-2 fsc-2 text-accent-500 fw-bold border-0 bg-transparent"
-                    style="width: 32px;"
-                    onclick={() => updateQuantity(item.id, 1)}>+</button
-                  >
+                <div class="d-flex flex-column flex-grow-1">
+                  <span class="placeholder col-8 rounded mb-2"></span>
+                  <span class="placeholder col-4 rounded mb-2"></span>
+                  <span class="placeholder col-3 rounded mt-3"></span>
+                </div>
+                <div class="d-flex flex-column align-items-sm-end justify-content-end mt-3 mt-sm-0" style="min-width: 100px;">
+                  <span class="placeholder col-12 rounded-pill mt-auto" style="height: 38px;"></span>
                 </div>
               </div>
             </div>
-          </div>
-        {/each}
+          {/each}
+        {:else}
+          {#each cartItems as item (item.id)}
+            <div class="d-flex w-100 align-items-start pb-5 border-bottom border-accent-200 last-border-0">
+              <div class="d-flex flex-column flex-sm-row w-100 gap-5">
+                <div class="position-relative flex-shrink-0">
+                  <img src={item.image_url} alt={item.name} class="rounded-3 object-fit-cover border border-accent-200" style="width: 100px; height: 100px;" />
+                </div>
+                <div class="d-flex flex-column flex-grow-1">
+                  <span class="fsc-3 fw-bold text-accent-500 text-break lh-sm" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{item.name}</span>
+                  {#if item.variant}
+                    <span class="fsc-2 text-muted mt-2">{item.variant}</span>
+                  {/if}
+                  <div class="d-flex align-items-center gap-3 mt-3">
+                    <span class="fw-bold fsc-3 text-accent-500">{formatPrice(item.unit_price, $currency, $exchangeRate)}</span>
+                  </div>
+                </div>
+                <div class="d-flex flex-column align-items-sm-end justify-content-end mt-3 mt-sm-0" style="min-width: 100px;">
+                  <div class="mt-auto w-max d-flex align-items-center border border-2 border-accent-300 rounded-pill px-2 py-1 bg-white">
+                    {#if item.quantity > 1}
+                      <button class="btn btn-sm p-0 px-2 fw-bold fsc-2 border-0 bg-transparent text-accent-500" style="width: 32px;" onclick={() => updateQuantity(item.id, -1)}>-</button>
+                    {:else}
+                      <button title="Remove item" class="btn btn-sm p-0 px-2 fw-bold border-0 bg-transparent text-danger" style="width: 32px;" onclick={() => deleteItem(item.id)}>
+                        <i class="bi bi-trash-fill text-accent-500 fsc-2"></i>
+                      </button>
+                    {/if}
+                    <span class="px-3 fw-bold fsc-3 text-accent-500"><AnimatedNumber value={item.quantity} /></span>
+                    <button class="btn btn-sm p-0 px-2 fsc-2 text-accent-500 fw-bold border-0 bg-transparent" style="width: 32px;" onclick={() => updateQuantity(item.id, 1)}>+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {/each}
 
-        {#if cartItems.length === 0}
-          <div class="d-flex flex-column align-items-center py-10">
-            <i class="bi bi-basket2 fsc-8 text-muted mb-4"></i>
-            <p class="fsc-4 text-muted">Your cart is empty.</p>
-            <a href="/menu" class="fsc-3 fw-bold text-accent-500 mt-3"
-              >Browse Menu</a
-            >
-          </div>
+          {#if cartItems.length === 0}
+            <div class="d-flex flex-column align-items-center py-10">
+              <i class="bi bi-basket2 fsc-8 text-muted mb-4"></i>
+              <p class="fsc-4 text-muted">Your cart is empty.</p>
+              <a href="/menu" class="fsc-3 fw-bold text-accent-500 mt-3">Browse Menu</a>
+            </div>
+          {/if}
         {/if}
       </div>
     </div>
@@ -157,40 +142,46 @@
         class="bg-white p-6 rounded-4 b-shadow-s border border-accent-200 position-sticky animation-slideLeft"
         style="top: 20px;"
       >
-        <h5 class="fw-black mb-5 fsc-4 text-accent-500">Order Summary</h5>
-
-        <div class="d-flex justify-content-between mb-4">
-          <span class="text-muted fsc-3">Total Items</span>
-          <span class="fw-bold fsc-3 text-accent-500"
-            ><AnimatedNumber value={totalQuantity} format="d" /></span
-          >
-        </div>
-
-        <div
-          class="d-flex justify-content-between mb-5 pb-5 border-bottom border-accent-200"
-        >
-          <span class="text-muted fsc-3">Total Price</span>
-          <div
-            class="fw-bold fsc-3 text-accent-500 d-flex align-items-center gap-1 text-nowrap"
-          >
-            <span>{$currency === "IDR" ? "Rp" : "$"}</span>
-            {#key $currency}
-              <AnimatedNumber
-                value={getDisplayValue(totalPrice, $currency, $exchangeRate)}
-                format={$currency === "IDR" ? "(.ddd)" : "(,ddd).dd"}
-              />
-            {/key}
+        {#if isLoading}
+          <div class="placeholder-glow">
+            <h5 class="fw-black mb-5 fsc-4 text-accent-500">Order Summary</h5>
+            <div class="d-flex justify-content-between mb-4">
+              <span class="placeholder col-4 rounded bg-accent-200"></span>
+              <span class="placeholder col-3 rounded bg-accent-200"></span>
+            </div>
+            <div class="d-flex justify-content-between mb-5 pb-5 border-bottom border-accent-200">
+              <span class="placeholder col-4 rounded bg-accent-200"></span>
+              <span class="placeholder col-4 rounded bg-accent-200"></span>
+            </div>
+            <span class="placeholder col-12 rounded-pill bg-accent-200" style="height: 52px;"></span>
           </div>
-        </div>
+        {:else}
+          <h5 class="fw-black mb-5 fsc-4 text-accent-500">Order Summary</h5>
 
-        <button
-          onclick={goToCheckout}
-          disabled={cartItems.length === 0}
-          class="w-100 py-3 fw-bold rounded-pill hover-button-alt fsc-3 border border-2 border-accent-500 d-flex justify-content-center align-items-center gap-2"
-          class:opacity-50={cartItems.length === 0}
-        >
-          Checkout
-        </button>
+          <div class="d-flex justify-content-between mb-4">
+            <span class="text-muted fsc-3">Total Items</span>
+            <span class="fw-bold fsc-3 text-accent-500"><AnimatedNumber value={totalQuantity} format="d" /></span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-5 pb-5 border-bottom border-accent-200">
+            <span class="text-muted fsc-3">Total Price</span>
+            <div class="fw-bold fsc-3 text-accent-500 d-flex align-items-center gap-1 text-nowrap">
+              <span>{$currency === "IDR" ? "Rp" : "$"}</span>
+              {#key $currency}
+                <AnimatedNumber value={getDisplayValue(totalPrice, $currency, $exchangeRate)} format={$currency === "IDR" ? "(.ddd)" : "(,ddd).dd"} />
+              {/key}
+            </div>
+          </div>
+
+          <button
+            onclick={goToCheckout}
+            disabled={cartItems.length === 0}
+            class="w-100 py-3 fw-bold rounded-pill hover-button-alt fsc-3 border border-2 border-accent-500 d-flex justify-content-center align-items-center gap-2"
+            class:opacity-50={cartItems.length === 0}
+          >
+            Checkout
+          </button>
+        {/if}
       </div>
     </div>
   </div>

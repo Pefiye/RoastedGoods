@@ -2,32 +2,47 @@
   import { enhance } from "$app/forms";
 
   let { data } = $props();
-  const product = $derived(data.product || {});
+  
+  let product = $state({});
+  let isLoading = $state(true);
+  let error = $state(null);
 
-  const isNew = $derived(!product.id);
+  const isNew = $derived(!product.id && !isLoading && !error);
 
-  let imagePreview = $state(product.image_url || "");
+  let imagePreview = $state("");
   let isUploading = $state(false);
-  let name = $state(product.name || "");
+  let name = $state("");
   let categoryMenuOpen = $state(false);
-  let category = $state(product.category || "coffee");
-  const tall = $derived(
-    product.variants?.find((v) => v.name === "Tall") || { price_add: 0 },
-  );
-  const grande = $derived(
-    product.variants?.find((v) => v.name === "Grande") || { price_add: 6000 },
-  );
-  const venti = $derived(
-    product.variants?.find((v) => v.name === "Venti") || { price_add: 13000 },
-  );
+  let category = $state("coffee");
+  
+  let tallPrice = $state(0);
+  let grandePrice = $state(0);
+  let ventiPrice = $state(0);
 
-  let tallPrice = $state(product.base_price || 0);
-  let grandePrice = $state(
-    product.base_price ? product.base_price + grande.price_add : 0,
-  );
-  let ventiPrice = $state(
-    product.base_price ? product.base_price + venti.price_add : 0,
-  );
+  $effect(() => {
+    data.streamed.product
+      .then((res) => {
+        if (res) {
+          product = res;
+          name = res.name || "";
+          category = res.category || "coffee";
+          imagePreview = res.image_url || "";
+          
+          const tall = res.variants?.find((v) => v.name === "Tall") || { price_add: 0 };
+          const grande = res.variants?.find((v) => v.name === "Grande") || { price_add: 6000 };
+          const venti = res.variants?.find((v) => v.name === "Venti") || { price_add: 13000 };
+          
+          tallPrice = res.base_price || 0;
+          grandePrice = res.base_price ? res.base_price + grande.price_add : 0;
+          ventiPrice = res.base_price ? res.base_price + venti.price_add : 0;
+        }
+        isLoading = false;
+      })
+      .catch((err) => {
+        error = err;
+        isLoading = false;
+      });
+  });
 
   let pendingImageBlob = $state(null);
 
@@ -98,12 +113,16 @@
       >
         <i class="bi bi-caret-left-fill fsc-4"></i>
       </a>
-      <h1 class="fsc-5 fw-black text-accent-500 m-0">
-        {isNew ? "New Product" : "Edit Product"}
-      </h1>
+      {#if isLoading}
+        <div class="placeholder-glow"><span class="placeholder col-4 rounded" style="width: 150px;"></span></div>
+      {:else}
+        <h1 class="fsc-5 fw-black text-accent-500 m-0">
+          {isNew ? "New Product" : "Edit Product"}
+        </h1>
+      {/if}
     </div>
 
-    {#if !isNew}
+    {#if !isNew && !isLoading && !error}
       <form
         action="?/delete"
         method="POST"
@@ -122,7 +141,39 @@
     {/if}
   </div>
 
-  <form
+  {#if isLoading}
+    <div class="row g-4">
+      <div class="col-12 col-xl-8">
+        <div class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 h-100 d-flex flex-column gap-4 placeholder-glow">
+          <div class="d-flex flex-column gap-2"><span class="placeholder col-3 rounded"></span><span class="placeholder col-12 rounded" style="height: 50px;"></span></div>
+          <div class="d-flex flex-column gap-2"><span class="placeholder col-3 rounded"></span><span class="placeholder col-12 rounded" style="height: 100px;"></span></div>
+          <div class="d-flex flex-column gap-2"><span class="placeholder col-3 rounded"></span><span class="placeholder col-12 rounded" style="height: 50px;"></span></div>
+          <div class="border-top border-accent-200 mt-2 pt-4 d-flex flex-column gap-4">
+            <span class="placeholder col-4 rounded"></span>
+            <div class="row g-3">
+              <div class="col-12 col-md-4"><span class="placeholder col-12 rounded" style="height: 50px;"></span></div>
+              <div class="col-12 col-md-4"><span class="placeholder col-12 rounded" style="height: 50px;"></span></div>
+              <div class="col-12 col-md-4"><span class="placeholder col-12 rounded" style="height: 50px;"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-4">
+        <div class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column gap-4 placeholder-glow">
+          <span class="placeholder col-4 rounded"></span>
+          <div class="ratio ratio-1 rounded-4 placeholder"></div>
+          <span class="placeholder col-12 rounded-pill" style="height: 50px;"></span>
+        </div>
+      </div>
+    </div>
+  {:else if error}
+    <div class="text-center p-5 bg-secondary rounded-4 border border-danger border-dashed">
+      <i class="bi bi-exclamation-triangle text-danger opacity-50 mb-4 d-block" style="font-size: 4rem;"></i>
+      <h3 class="fsc-4 fw-bold text-danger mb-2">Error Loading Product</h3>
+      <p class="fsc-3 text-muted m-0">{error.message || 'Product not found.'}</p>
+    </div>
+  {:else}
+    <form
     action="?/save"
     method="POST"
     use:enhance={async ({ formData, cancel }) => {
@@ -409,7 +460,8 @@
         </button>
       </div>
     </div>
-  </form>
+    </form>
+  {/if}
 </div>
 
 <style>

@@ -6,60 +6,66 @@ export const load = async ({ locals }) => {
   if (!session) {
     throw redirect(303, '/auth/login');
   }
-  const { data: cart } = await locals.supabase
-    .from('carts')
-    .select('id')
-    .eq('user_id', user.id)
-    .single();
+  const getCheckout = async () => {
+    const { data: cart } = await locals.supabase
+      .from('carts')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
 
-  if (!cart) {
-    throw redirect(303, '/cart');
-  }
+    if (!cart) {
+      return { redirect: '/cart' };
+    }
 
-  const { data: cartDetails } = await locals.supabase
-    .from('cart_details')
-    .select(`
-      id,
-      variant,
-      quantity,
-      product_id,
-      products!inner (
+    const { data: cartDetails } = await locals.supabase
+      .from('cart_details')
+      .select(`
         id,
-        name,
-        image_url,
-        base_price,
-        variants
-      )
-    `)
-    .eq('cart_id', cart.id)
-    .eq('products.is_active', true)
-    .order('created_at', { ascending: true });
+        variant,
+        quantity,
+        product_id,
+        products!inner (
+          id,
+          name,
+          image_url,
+          base_price,
+          variants
+        )
+      `)
+      .eq('cart_id', cart.id)
+      .eq('products.is_active', true)
+      .order('created_at', { ascending: true });
 
-  const checkoutItems = (cartDetails ?? []).map(item => {
-    const product = item.products;
-    const variantData = (product.variants || []).find(v => v.name === item.variant);
-    const unitPrice = product.base_price + (variantData?.price_add ?? 0);
+    const checkoutItems = (cartDetails ?? []).map(item => {
+      const product = item.products;
+      const variantData = (product.variants || []).find(v => v.name === item.variant);
+      const unitPrice = product.base_price + (variantData?.price_add ?? 0);
+
+      return {
+        id: item.id,
+        product_id: product.id,
+        name: product.name,
+        image_url: product.image_url,
+        variant: item.variant,
+        quantity: item.quantity,
+        unit_price: unitPrice
+      };
+    });
+
+    if (checkoutItems.length === 0) {
+      return { redirect: '/cart' };
+    }
+
+    const totalPrice = checkoutItems.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
 
     return {
-      id: item.id,
-      product_id: product.id,
-      name: product.name,
-      image_url: product.image_url,
-      variant: item.variant,
-      quantity: item.quantity,
-      unit_price: unitPrice
+      checkoutItems,
+      totalPrice,
+      cartId: cart.id
     };
-  });
-
-  if (checkoutItems.length === 0) {
-    throw redirect(303, '/cart');
-  }
-
-  const totalPrice = checkoutItems.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
+  };
 
   return {
-    checkoutItems,
-    totalPrice,
-    cartId: cart.id
+    streamed: { checkoutData: getCheckout() }
   };
 };

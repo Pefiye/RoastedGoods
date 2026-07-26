@@ -1,6 +1,16 @@
 <script>
   let { data } = $props();
 
+  let allOrders = $state([]);
+  let isLoading = $state(true);
+
+  $effect(() => {
+    data.streamed.orders.then((res) => {
+      allOrders = res;
+      isLoading = false;
+    });
+  });
+
   let searchQuery = $state("");
   let currentPage = $state(1);
   const itemsPerPage = 20;
@@ -12,7 +22,7 @@
   });
 
   const filteredTransactions = $derived(
-    data.orders.filter((order) => {
+    allOrders.filter((order) => {
       const query = searchQuery.toLowerCase();
       const idMatch = order.id.toLowerCase().includes(query);
       const nameMatch =
@@ -101,7 +111,44 @@
       </div>
     </div>
 
-    {#if paginatedTransactions.length === 0}
+    {#if isLoading}
+      <div class="table-responsive">
+        <table class="table align-middle table-row-dashed fs-6 gy-5">
+          <thead>
+            <tr class="text-start text-muted fw-bold fsc-2 text-uppercase gs-0">
+              <th class="min-w-100px">Order ID</th>
+              <th class="min-w-150px">Date</th>
+              <th class="min-w-150px">Customer</th>
+              <th class="min-w-250px">Items</th>
+              <th class="min-w-100px text-end">Total</th>
+              <th class="min-w-100px text-end pe-4">Status</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-600 fw-medium">
+            {#each Array(5) as _}
+              <tr>
+                <td><div class="placeholder-glow"><span class="placeholder col-8 rounded"></span></div></td>
+                <td><div class="placeholder-glow"><span class="placeholder col-10 rounded"></span></div></td>
+                <td>
+                  <div class="d-flex flex-column gap-1 placeholder-glow">
+                    <span class="placeholder col-8 rounded"></span>
+                    <span class="placeholder col-6 rounded"></span>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex flex-column gap-1 placeholder-glow">
+                    <span class="placeholder col-12 rounded"></span>
+                    <span class="placeholder col-9 rounded"></span>
+                  </div>
+                </td>
+                <td class="text-end"><div class="placeholder-glow"><span class="placeholder col-6 rounded"></span></div></td>
+                <td class="text-end pe-4"><div class="placeholder-glow"><span class="placeholder col-8 rounded-pill" style="height: 30px;"></span></div></td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {:else if paginatedTransactions.length === 0}
       <div
         class="text-center p-5 bg-secondary rounded-4 border border-accent-200 border-dashed"
       >

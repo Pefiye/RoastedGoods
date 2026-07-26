@@ -3,6 +3,16 @@
 
   let { data, form } = $props();
 
+  let allProfiles = $state([]);
+  let isLoading = $state(true);
+
+  $effect(() => {
+    data.streamed.profiles.then((res) => {
+      allProfiles = res;
+      isLoading = false;
+    });
+  });
+
   let searchQuery = $state("");
   let currentPage = $state(1);
   const itemsPerPage = 8;
@@ -14,7 +24,7 @@
   });
 
   const filteredProfiles = $derived(
-    data.profiles.filter(
+    allProfiles.filter(
       (p) =>
         p.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.email?.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -88,7 +98,16 @@
           </tr>
         </thead>
         <tbody>
-          {#if paginatedProfiles.length === 0}
+          {#if isLoading}
+            {#each Array(5) as _}
+              <tr class="border-bottom border-accent-200">
+                <td class="py-4 px-4"><div class="placeholder-glow d-flex align-items-center gap-3"><span class="placeholder rounded-circle" style="width: 40px; height: 40px;"></span><span class="placeholder col-6 rounded"></span></div></td>
+                <td class="py-4 px-4"><div class="placeholder-glow"><span class="placeholder col-8 rounded"></span></div></td>
+                <td class="py-4 px-4 text-center"><div class="placeholder-glow"><span class="placeholder col-8 rounded-pill" style="height: 38px;"></span></div></td>
+                <td class="py-4 px-4 text-end"><div class="placeholder-glow d-flex justify-content-end"><span class="placeholder rounded-circle" style="width: 34px; height: 34px;"></span></div></td>
+              </tr>
+            {/each}
+          {:else if paginatedProfiles.length === 0}
             <tr>
               <td colspan="4" class="text-center py-5">
                 <i

@@ -18,6 +18,22 @@
 
   const currentSortLabel = $derived(sortOptions.find(o => o.value === data.sort)?.label || 'A to Z');
 
+  let allProducts = $state([]);
+  let isLoading = $state(true);
+  let error = $state(null);
+
+  $effect(() => {
+    data.streamed.products
+      .then((res) => {
+        allProducts = res;
+        isLoading = false;
+      })
+      .catch((err) => {
+        error = err;
+        isLoading = false;
+      });
+  });
+
   $effect(() => {
     if (searchQuery !== undefined) {
       currentPage = 1;
@@ -25,7 +41,7 @@
   });
 
   const filteredProducts = $derived(
-    data.products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()))
+    allProducts.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   const totalPages = $derived(Math.ceil(filteredProducts.length / itemsPerPage) || 1);
@@ -99,7 +115,28 @@
       </div>
     </div>
 
-    {#if paginatedProducts.length === 0}
+    {#if isLoading}
+      <div class="row g-4">
+        {#each Array(8) as _}
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="bg-secondary rounded-4 border border-accent-200 p-3 h-100 d-flex flex-column gap-3 position-relative placeholder-glow">
+              <div class="ratio ratio-1 rounded-3 overflow-hidden bg-accent-200 placeholder"></div>
+              <div class="d-flex flex-column gap-1 flex-grow-1 mt-2">
+                <span class="placeholder col-4 rounded-pill py-2 mb-1 bg-accent-200"></span>
+                <span class="placeholder col-8 rounded bg-accent-200" style="height: 20px;"></span>
+                <span class="placeholder col-5 rounded bg-accent-200 mt-auto" style="height: 24px;"></span>
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {:else if error}
+      <div class="text-center p-5 bg-secondary rounded-4 border border-danger border-dashed">
+        <i class="bi bi-exclamation-triangle text-danger opacity-50 mb-4 d-block" style="font-size: 4rem;"></i>
+        <h3 class="fsc-4 fw-bold text-danger mb-2">Error Loading Products</h3>
+        <p class="fsc-3 text-muted m-0">{error.message || 'Something went wrong'}</p>
+      </div>
+    {:else if paginatedProducts.length === 0}
       <div class="text-center p-5 bg-secondary rounded-4 border border-accent-200 border-dashed">
         <i class="bi bi-box-seam text-muted opacity-25 mb-4 d-block" style="font-size: 4rem;"></i>
         <p class="fsc-3 text-muted m-0">No products found.</p>
