@@ -402,7 +402,8 @@
           {/if}
         </button>
       {/if}
-    {/if}
+    </div>
+  {/if}
   </div>
 </div>
 
