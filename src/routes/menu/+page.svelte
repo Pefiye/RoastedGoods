@@ -120,10 +120,11 @@
           <img
             src={product.image_url}
             alt={product.name}
-            class="rounded-circle ratio-1 hover-scale shadow-sm"
-            style="object-fit: cover; width: 140px; max-width: 100%;"
+            class="rounded-circle ratio-1 hover-scale shadow-sm bg-accent-200"
+            style="object-fit: cover; width: 140px; max-width: 100%; color: transparent;"
             loading={index < 4 ? "eager" : "lazy"}
             decoding="async"
+            crossorigin="anonymous"
           />
           <p class="w-100 fsc-3 text-center fw-medium mt-5 text-accent-500">
             {product.name}

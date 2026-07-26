@@ -1,49 +1,53 @@
 <script>
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
+
   let { data } = $props();
 
-  let allOrders = $state([]);
+  let orders = $state([]);
+  let totalOrders = $state(0);
   let isLoading = $state(true);
 
+  let searchQuery = $state(page.url.searchParams.get("search") || "");
+  let currentPage = $state(parseInt(page.url.searchParams.get("page") || "1"));
+  let itemsPerPage = $state(parseInt(page.url.searchParams.get("limit") || "25"));
+
   $effect(() => {
-    data.streamed.orders.then((res) => {
-      allOrders = res;
+    isLoading = true;
+    searchQuery = page.url.searchParams.get("search") || "";
+    currentPage = parseInt(page.url.searchParams.get("page") || "1");
+    itemsPerPage = parseInt(page.url.searchParams.get("limit") || "25");
+
+    data.streamed.ordersData.then((res) => {
+      orders = res.orders;
+      totalOrders = res.count;
       isLoading = false;
     });
   });
 
-  let searchQuery = $state("");
-  let currentPage = $state(1);
-  const itemsPerPage = 20;
-
-  $effect(() => {
-    if (searchQuery !== undefined) {
-      currentPage = 1;
-    }
-  });
-
-  const filteredTransactions = $derived(
-    allOrders.filter((order) => {
-      const query = searchQuery.toLowerCase();
-      const idMatch = order.id.toLowerCase().includes(query);
-      const nameMatch =
-        order.profiles?.username?.toLowerCase().includes(query) ||
-        order.profiles?.email?.toLowerCase().includes(query);
-      const itemsMatch = order.order_details.some((item) =>
-        item.product_name.toLowerCase().includes(query),
-      );
-      return idMatch || nameMatch || itemsMatch;
-    }),
-  );
-
   const totalPages = $derived(
-    Math.ceil(filteredTransactions.length / itemsPerPage) || 1,
+    Math.ceil(totalOrders / itemsPerPage) || 1,
   );
-  const paginatedTransactions = $derived(
-    filteredTransactions.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage,
-    ),
-  );
+
+  function updateFilters(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const url = new URL(page.url);
+    if (searchQuery.trim()) {
+      url.searchParams.set("search", searchQuery.trim());
+    } else {
+      url.searchParams.delete("search");
+    }
+    url.searchParams.set("limit", itemsPerPage.toString());
+    url.searchParams.set("page", "1");
+    goto(url.toString(), { keepFocus: true });
+  }
+
+  function handlePageChange(newPage) {
+    if (newPage < 1 || newPage > totalPages) return;
+    const url = new URL(page.url);
+    url.searchParams.set("page", newPage.toString());
+    goto(url.toString(), { keepFocus: true });
+  }
 
   function formatIDR(amount) {
     return new Intl.NumberFormat("id-ID", {
@@ -94,20 +98,44 @@
     <div
       class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4 mb-5"
     >
-      <div class="position-relative w-100" style="max-width: 400px;">
+      <form class="position-relative w-100" style="max-width: 400px;" onsubmit={updateFilters}>
         <i
           class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"
         ></i>
         <input
           type="text"
           bind:value={searchQuery}
-          placeholder="Search by ID, name, or product..."
-          class="w-100 py-3 ps-9 pe-4 rounded-pill border border-2 border-accent-200 outline-0 fsc-3 transition-all"
+          placeholder="Search by Order ID..."
+          class="w-100 py-3 ps-9 pe-4 rounded-pill border border-2 border-accent-200 outline-0 fsc-3 transition-all bg-white"
           style="padding-left: 3rem;"
           onfocus={(e) =>
             (e.target.style.borderColor = "var(--color-accent-500)")}
           onblur={(e) => (e.target.style.borderColor = "")}
         />
+        {#if searchQuery}
+          <button 
+            type="button" 
+            class="position-absolute border-0 bg-transparent text-muted p-2 d-flex align-items-center justify-content-center" 
+            style="right: 0.8rem; top: 50%; transform: translateY(-50%); cursor: pointer;" 
+            onclick={() => { searchQuery = ''; updateFilters(); }}
+          >
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+        {/if}
+      </form>
+      
+      <div class="d-flex align-items-center gap-3">
+        <span class="fsc-2 text-muted fw-bold text-nowrap">Items per page:</span>
+        <select 
+          class="form-select border-2 border-accent-200 rounded-pill fsc-3 fw-bold text-accent-500 bg-white" 
+          style="width: 100px; cursor: pointer;"
+          bind:value={itemsPerPage}
+          onchange={updateFilters}
+        >
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
       </div>
     </div>
 
@@ -148,7 +176,7 @@
           </tbody>
         </table>
       </div>
-    {:else if paginatedTransactions.length === 0}
+    {:else if orders.length === 0}
       <div
         class="text-center p-5 bg-secondary rounded-4 border border-accent-200 border-dashed"
       >
@@ -172,7 +200,7 @@
             </tr>
           </thead>
           <tbody class="text-gray-600 fw-medium">
-            {#each paginatedTransactions as transaction}
+            {#each orders as transaction}
               <tr>
                 <td>
                   <span
@@ -243,8 +271,8 @@
               ? 'border-accent-200 bg-accent-100 opacity-50 cursor-default'
               : 'hover-button-alt border-accent-200'}"
             style="width: 40px; height: 40px;"
-            disabled={currentPage === 1}
-            onclick={() => (currentPage -= 1)}
+            disabled={currentPage === 1 || isLoading}
+            onclick={() => handlePageChange(currentPage - 1)}
             aria-label="Previous page"
           >
             <i
@@ -260,8 +288,8 @@
               ? 'border-accent-200 bg-accent-100 opacity-50 cursor-default'
               : 'hover-button-alt border-accent-200'}"
             style="width: 40px; height: 40px;"
-            disabled={currentPage === totalPages}
-            onclick={() => (currentPage += 1)}
+            disabled={currentPage === totalPages || isLoading}
+            onclick={() => handlePageChange(currentPage + 1)}
             aria-label="Next page"
           >
             <i

@@ -9,7 +9,6 @@
   let ordersChannel;
 
   onMount(async () => {
-    console.log('Subscribing to cashier-orders realtime...');
     await supabase.auth.getSession();
 
     ordersChannel = supabase
@@ -18,12 +17,10 @@
         'postgres_changes',
         { event: '*', schema: 'public', table: 'orders' },
         (payload) => {
-          console.log('Cashier Realtime payload received:', payload);
           invalidateAll();
         }
       )
       .subscribe((status) => {
-        console.log('Cashier Realtime subscription status:', status);
       });
   });
 
