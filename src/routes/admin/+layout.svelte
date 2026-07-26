@@ -17,7 +17,6 @@
   let ordersChannel;
 
   onMount(async () => {
-    console.log('Subscribing to admin-orders realtime...');
     await supabase.auth.getSession();
 
     ordersChannel = supabase
@@ -26,12 +25,10 @@
         'postgres_changes',
         { event: '*', schema: 'public', table: 'orders' },
         (payload) => {
-          console.log('Admin Realtime payload received:', payload);
           invalidateAll();
         }
       )
       .subscribe((status) => {
-        console.log('Admin Realtime subscription status:', status);
       });
   });
 

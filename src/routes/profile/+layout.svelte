@@ -15,7 +15,6 @@
   onMount(async () => {
     const userId = page.data.user?.id;
     if (userId) {
-      console.log(`Subscribing to user-orders-${userId} realtime...`);
       await supabase.auth.getSession();
 
       ordersChannel = supabase
@@ -24,15 +23,12 @@
           'postgres_changes',
           { event: '*', schema: 'public', table: 'orders', filter: `user_id=eq.${userId}` },
           (payload) => {
-            console.log('Profile Realtime payload received:', payload);
             invalidateAll();
           }
         )
         .subscribe((status) => {
-          console.log('Profile Realtime subscription status:', status);
         });
     } else {
-      console.log('No user ID found, skipping profile realtime subscription.');
     }
   });
 

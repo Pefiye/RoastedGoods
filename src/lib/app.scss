@@ -675,3 +675,38 @@ $custom-scales: (
 .btn > i {
   padding-right: 0 !important;
 }
+
+.hero-section {
+  min-height: 50vh;
+  overflow: hidden;
+}
+
+.glow-orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    var(--color-accent-200) 0%,
+    transparent 60%
+  );
+  opacity: 0.4;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow-orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    var(--color-accent-300) 0%,
+    transparent 60%
+  );
+  opacity: 0.3;
+  transform: translate(-20%, -30%);
+}
