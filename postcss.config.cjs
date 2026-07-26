@@ -14,7 +14,8 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
       /^text-/,
       /^bg-/,
       /^border-/,
-      /^hover-/
+      /^hover-/,
+      /^odometer/
     ],
     deep: [/svelte-/]
   },

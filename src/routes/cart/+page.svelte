@@ -85,7 +85,7 @@
 
               <div class="d-flex flex-column flex-grow-1">
                 <span
-                  class="fsc-3 fw-bold text-dark text-break lh-sm"
+                  class="fsc-3 fw-bold text-accent-500 text-break lh-sm"
                   style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
                   >{item.name}</span
                 >
@@ -126,7 +126,7 @@
                       <i class="bi bi-trash-fill text-accent-500 fsc-2"></i>
                     </button>
                   {/if}
-                  <span class="px-3 fw-bold fsc-3 text-dark"
+                  <span class="px-3 fw-bold fsc-3 text-accent-500"
                     ><AnimatedNumber value={item.quantity} /></span
                   >
                   <button
@@ -161,7 +161,7 @@
 
         <div class="d-flex justify-content-between mb-4">
           <span class="text-muted fsc-3">Total Items</span>
-          <span class="fw-bold fsc-3 text-dark"
+          <span class="fw-bold fsc-3 text-accent-500"
             ><AnimatedNumber value={totalQuantity} format="d" /></span
           >
         </div>

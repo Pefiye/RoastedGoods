@@ -96,7 +96,7 @@
           Your order has been created successfully.
         </p>
         <p class="fsc-2 text-muted mb-8">
-          Order ID: <span class="fw-bold text-dark"
+          Order ID: <span class="fw-bold text-accent-500"
             >{orderId?.slice(0, 8)}...</span
           >
         </p>
@@ -170,12 +170,12 @@
                   style="width: 60px; height: 60px;"
                 />
                 <div class="d-flex flex-column flex-grow-1">
-                  <span class="fsc-3 fw-bold text-dark lh-sm">{item.name}</span>
+                  <span class="fsc-3 fw-bold text-accent-500 lh-sm">{item.name}</span>
                   <span class="fsc-2 text-muted"
                     >{item.variant} × {item.quantity}</span
                   >
                 </div>
-                <span class="fw-bold fsc-3 text-dark text-nowrap"
+                <span class="fw-bold fsc-3 text-accent-500 text-nowrap"
                   >{formatPrice(item.unit_price * item.quantity, $currency, $exchangeRate)}</span
                 >
               </div>
@@ -187,7 +187,7 @@
           class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 animation-slideUp"
         >
           <div class="d-flex justify-content-between mb-5">
-            <span class="fsc-3 fw-bold text-dark">Total</span>
+            <span class="fsc-3 fw-bold text-accent-500">Total</span>
             <span class="fsc-4 fw-black text-accent-500"
               >{formatPrice(totalPrice, $currency, $exchangeRate)}</span
             >

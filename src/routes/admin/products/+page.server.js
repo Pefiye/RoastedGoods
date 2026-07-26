@@ -6,7 +6,10 @@ export const load = async ({ locals, url }) => {
   let productsData = products || [];
 
   if (sort === 'popular' || sort === 'least-popular') {
-    const { data: orderDetails } = await supabase.from('order_details').select('product_id, quantity');
+    const { data: orderDetails } = await supabase
+      .from('order_details')
+      .select('product_id, quantity, orders!inner(status)')
+      .in('orders.status', ['paid', 'preparing', 'done']);
     const counts = {};
     if (orderDetails) {
       for (const d of orderDetails) {

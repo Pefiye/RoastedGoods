@@ -10,6 +10,7 @@
   const links = [
     { href: "/admin", icon: "bi-grid-1x2", label: "Dashboard" },
     { href: "/admin/products", icon: "bi-cup-hot", label: "Products" },
+    { href: "/admin/transactions", icon: "bi-receipt", label: "Transactions" },
     { href: "/admin/accounts", icon: "bi-people", label: "Accounts" },
   ];
 
@@ -51,7 +52,7 @@
 </script>
 
 <svelte:head>
-  <title>Admin Dashboard | RoastedGoods</title>
+  <title>RoastedGoods</title>
 </svelte:head>
 
 <div
@@ -61,7 +62,7 @@
     class="bg-white p-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column align-items-center"
   >
     <i class="bi bi-display text-accent-500 mb-4" style="font-size: 4rem;"></i>
-    <h2 class="fsc-5 fw-black text-dark mb-3">Desktop Required</h2>
+    <h2 class="fsc-5 fw-black text-accent-500 mb-3">Desktop Required</h2>
     <p class="fsc-3 text-muted mb-0">Please open this page on a desktop.</p>
   </div>
 </div>
@@ -75,10 +76,10 @@
       : '80px'}; z-index: 10;"
   >
     <div
-      class="p-4 d-flex align-items-center justify-content-between border-bottom border-accent-200"
+      class="{isSidebarOpen ? 'p-4' : 'p-2 py-4'} d-flex align-items-center {isSidebarOpen ? 'justify-content-between' : 'justify-content-center'} border-bottom border-accent-200"
     >
       {#if isSidebarOpen}
-        <span class="fsc-4 fw-black text-dark text-bright text-nowrap"
+        <span class="fsc-4 fw-black text-accent-500 text-bright text-nowrap"
           >RoastedGoods</span
         >
       {/if}
@@ -93,12 +94,12 @@
     </div>
 
     <div
-      class="d-flex flex-column gap-2 p-3 flex-grow-1 overflow-y-auto hide-scrollbar"
+      class="d-flex flex-column gap-2 {isSidebarOpen ? 'p-3' : 'p-2 py-3'} flex-grow-1 overflow-y-auto hide-scrollbar"
     >
       {#each links as link}
         <a
           href={link.href}
-          class="d-flex align-items-center gap-3 p-3 rounded-3 text-decoration-none transition-all {page
+          class="d-flex align-items-center {isSidebarOpen ? 'gap-3 justify-content-start px-3' : 'justify-content-center px-0'} py-3 rounded-3 text-decoration-none transition-all {page
             .url.pathname === link.href ||
           (page.url.pathname.startsWith(link.href) && link.href !== '/admin')
             ? 'bg-accent-500 text-white'
@@ -124,10 +125,10 @@
       {/each}
     </div>
 
-    <div class="p-4 border-top border-accent-200">
+    <div class="{isSidebarOpen ? 'p-4' : 'p-2 py-4'} border-top border-accent-200">
       <button
         onclick={handleLogout}
-        class="d-flex align-items-center gap-3 p-3 rounded-3 border-0 justify-content-center transition-all text-white bg-danger w-100 hover-button-danger"
+        class="d-flex align-items-center {isSidebarOpen ? 'gap-3 justify-content-start px-3' : 'justify-content-center px-0'} py-3 rounded-3 border-0 transition-all text-white bg-danger w-100 hover-button-danger"
       >
         <i class="bi bi-box-arrow-left text-white fsc-3"></i>
         {#if isSidebarOpen}

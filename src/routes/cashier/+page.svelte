@@ -85,7 +85,7 @@
         class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-5 flex-shrink-0 gap-4"
       >
         <h2
-          class="fsc-4 fw-black text-dark m-0 d-flex align-items-center gap-2"
+          class="fsc-4 fw-black text-accent-500 m-0 d-flex align-items-center gap-2"
         >
           Active Queue
           <span
@@ -136,7 +136,7 @@
             class="bi bi-cup-hot text-muted opacity-25 mb-4"
             style="font-size: 5rem;"
           ></i>
-          <h3 class="fsc-4 fw-bold text-dark mb-2">No orders found!</h3>
+          <h3 class="fsc-4 fw-bold text-accent-500 mb-2">No orders found!</h3>
           <p class="fsc-3 text-muted m-0">
             {searchQuery
               ? "Try a different search term."
@@ -155,7 +155,7 @@
                 <div class="d-flex align-items-center gap-4">
                   <div class="d-flex flex-column gap-1">
                     <span
-                      class="fsc-3 fw-black text-dark text-nowrap d-flex align-items-center gap-2"
+                      class="fsc-3 fw-black text-accent-500 text-nowrap d-flex align-items-center gap-2"
                     >
                       <i class="bi bi-person-fill text-muted"></i>
                       {order.profiles?.username || "Unknown"}
@@ -204,7 +204,7 @@
                 <i class="bi bi-chevron-left pe-0 {currentPage === 1 ? 'text-muted' : ''}"></i>
               </button>
 
-              <span class="fsc-3 fw-bold text-dark">
+              <span class="fsc-3 fw-bold text-accent-500">
                 Page {currentPage} of {totalPages}
               </span>
 

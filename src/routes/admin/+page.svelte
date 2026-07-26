@@ -11,7 +11,7 @@
 </script>
 
 <div class="d-flex flex-column gap-4 animation-pageIn">
-  <h1 class="fsc-5 fw-black text-dark mb-2">Dashboard</h1>
+  <h1 class="fsc-5 fw-black text-accent-500 mb-2">Dashboard</h1>
 
   <div class="row g-4">
     <div class="col-12 col-md-6">
@@ -21,7 +21,7 @@
         <span class="fsc-3 fw-bold text-muted mb-2"
           ><i class="bi bi-graph-up text-accent-500 me-2"></i> Today's Sales</span
         >
-        <span class="fsc-6 fw-black text-dark"
+        <span class="fsc-6 fw-black text-accent-500"
           >{formatIDR(data.todaySales)}</span
         >
       </div>
@@ -33,7 +33,7 @@
         <span class="fsc-3 fw-bold text-muted mb-2"
           ><i class="bi bi-receipt text-accent-500 me-2"></i> Orders Today</span
         >
-        <span class="fsc-6 fw-black text-dark"
+        <span class="fsc-6 fw-black text-accent-500"
           >{data.todayOrders}
           <span class="fsc-3 text-muted fw-normal">Orders</span></span
         >
@@ -48,7 +48,7 @@
         class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 h-100"
       >
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="fsc-4 fw-bold text-dark m-0">Recent Active Orders</h2>
+          <h2 class="fsc-4 fw-bold text-accent-500 m-0">Recent Active Orders</h2>
         </div>
 
         {#if data.activeOrders.length === 0}
@@ -64,7 +64,7 @@
                 class="p-3 rounded-3 border border-accent-200 d-flex justify-content-between align-items-center bg-secondary"
               >
                 <div>
-                  <span class="fsc-3 fw-bold text-dark d-block"
+                  <span class="fsc-3 fw-bold text-accent-500 d-block"
                     >{order.profiles?.username || "Unknown"}</span
                   >
                   <span class="fsc-2 text-muted"
@@ -93,7 +93,7 @@
       <div
         class="bg-white p-4 p-md-5 rounded-4 b-shadow-s border border-accent-200 h-100"
       >
-        <h2 class="fsc-4 fw-bold text-dark mb-4">Popular Drinks</h2>
+        <h2 class="fsc-4 fw-bold text-accent-500 mb-4">Popular Drinks</h2>
 
         {#if data.popularDrinks.length === 0}
           <div
@@ -127,7 +127,7 @@
                   </div>
                 {/if}
                 <div class="d-flex flex-column flex-grow-1">
-                  <span class="fsc-3 fw-bold text-dark">{drink.name}</span>
+                  <span class="fsc-3 fw-bold text-accent-500">{drink.name}</span>
                   <span class="fsc-2 text-muted">{drink.count} ordered</span>
                 </div>
               </div>

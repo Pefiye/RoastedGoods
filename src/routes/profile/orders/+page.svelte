@@ -26,7 +26,7 @@
   function getStatusColor(status) {
     switch (status) {
       case "pending":
-        return "text-dark bg-warning";
+        return "text-white bg-warning";
       case "paid":
         return "text-white bg-accent-500";
       case "preparing":
@@ -101,7 +101,7 @@
               <span class="fsc-2 text-muted mb-1"
                 >{formatDate(order.created_at)}</span
               >
-              <span class="fsc-2 fw-bold text-dark"
+              <span class="fsc-2 fw-bold text-accent-500"
                 >ID: {order.id.split("-")[0]}...</span
               >
             </div>
@@ -143,14 +143,14 @@
                 </div>
               {/if}
               <div class="d-flex flex-column flex-grow-1 overflow-hidden">
-                <span class="fsc-2 fw-bold text-dark text-truncate"
+                <span class="fsc-2 fw-bold text-accent-500 text-truncate"
                   >{firstItem.product_name}</span
                 >
                 <span class="fsc-1 text-muted"
                   >{firstItem.variant} × {firstItem.quantity}</span
                 >
               </div>
-              <span class="fw-bold fsc-2 text-dark text-nowrap"
+              <span class="fw-bold fsc-2 text-accent-500 text-nowrap"
                 >{formatPrice(
                   firstItem.unit_price * firstItem.quantity,
                   $currency,

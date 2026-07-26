@@ -40,7 +40,7 @@
 
 <div class="d-flex flex-column gap-4 animation-pageIn">
   <div class="d-flex justify-content-between align-items-center">
-    <h1 class="fsc-5 fw-black text-dark m-0">Accounts</h1>
+    <h1 class="fsc-5 fw-black text-accent-500 m-0">Accounts</h1>
     <button
       onclick={() => (isCreateModalOpen = true)}
       class="px-5 py-2 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 text-nowrap hover-button-alt d-flex align-items-center gap-2"
@@ -112,7 +112,7 @@
                     >
                       <i class="bi bi-person-fill text-muted fsc-4"></i>
                     </div>
-                    <span class="fsc-3 fw-bold text-dark"
+                    <span class="fsc-3 fw-bold text-accent-500"
                       >{profile.username}</span
                     >
                   </div>
@@ -130,7 +130,12 @@
                     <form
                       action="?/updateRole"
                       method="POST"
-                      use:enhance
+                      use:enhance={() => {
+                        openDropdownId = null;
+                        return async ({ update }) => {
+                          await update();
+                        };
+                      }}
                       class="position-relative mx-auto"
                       style="min-width: 120px; width: fit-content;"
                     >
@@ -140,7 +145,7 @@
                         onclick={() =>
                           (openDropdownId =
                             openDropdownId === profile.id ? null : profile.id)}
-                        class="w-100 px-4 py-2 fsc-2 fw-bold rounded-pill border border-2 border-accent-500 hover-button d-flex align-items-center justify-content-between gap-2 text-dark bg-transparent"
+                        class="w-100 px-4 py-2 fsc-2 fw-bold rounded-pill border border-2 border-accent-500 hover-button d-flex align-items-center justify-content-between gap-2"
                       >
                         {profile.role === "cashier" ? "Cashier" : "User"}
                         <i class="bi bi-chevron-down"></i>
@@ -158,8 +163,8 @@
                             class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {profile.role ===
                             'user'
                               ? 'fw-black text-accent-500'
-                              : 'fw-medium text-dark'}"
-                            onclick={() => (openDropdownId = null)}>User</button
+                              : 'fw-medium text-accent-500'}"
+                            >User</button
                           >
                           <button
                             name="role"
@@ -168,8 +173,7 @@
                             class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {profile.role ===
                             'cashier'
                               ? 'fw-black text-accent-500'
-                              : 'fw-medium text-dark'}"
-                            onclick={() => (openDropdownId = null)}
+                              : 'fw-medium text-accent-500'}"
                             >Cashier</button
                           >
                         </div>
@@ -223,7 +227,7 @@
           ></i>
         </button>
 
-        <span class="fsc-3 fw-bold text-dark">
+        <span class="fsc-3 fw-bold text-accent-500">
           Page {currentPage} of {totalPages}
         </span>
 
@@ -261,7 +265,7 @@
       onclick={(e) => e.stopPropagation()}
     >
       <div class="d-flex justify-content-between align-items-center mb-6">
-        <h3 class="fsc-4 fw-black text-dark m-0">Create Account</h3>
+        <h3 class="fsc-4 fw-black text-accent-500 m-0">Create Account</h3>
         <button
           onclick={() => (isCreateModalOpen = false)}
           class="btn hover-button rounded-circle p-2 d-flex justify-content-center align-items-center"
@@ -285,7 +289,7 @@
         class="d-flex flex-column gap-4"
       >
         <div class="d-flex flex-column gap-2">
-          <label for="email" class="fsc-3 fw-bold text-dark"
+          <label for="email" class="fsc-3 fw-bold text-accent-500"
             >Email Address</label
           >
           <input
@@ -302,7 +306,7 @@
         </div>
 
         <div class="d-flex flex-column gap-2">
-          <label for="password" class="fsc-3 fw-bold text-dark">Password</label>
+          <label for="password" class="fsc-3 fw-bold text-accent-500">Password</label>
           <input
             type="password"
             id="password"
@@ -317,7 +321,7 @@
         </div>
 
         <div class="d-flex flex-column gap-2">
-          <label for="username" class="fsc-3 fw-bold text-dark">Username</label>
+          <label for="username" class="fsc-3 fw-bold text-accent-500">Username</label>
           <input
             type="text"
             id="username"
@@ -332,13 +336,13 @@
         </div>
 
         <div class="d-flex flex-column gap-2 position-relative">
-          <label class="fsc-3 fw-bold text-dark">Role</label>
+          <label class="fsc-3 fw-bold text-accent-500">Role</label>
           <input type="hidden" name="role" value={createRole} />
 
           <button
             type="button"
             onclick={() => (createRoleMenuOpen = !createRoleMenuOpen)}
-            class="w-100 px-4 py-3 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 hover-button d-flex align-items-center justify-content-between gap-2 text-dark bg-transparent"
+            class="w-100 px-4 py-3 fsc-3 fw-bold rounded-pill border border-2 border-accent-500 hover-button d-flex align-items-center justify-content-between gap-2"
           >
             {createRole === "cashier" ? "Cashier" : "User"}
             <i class="bi bi-chevron-down"></i>
@@ -358,7 +362,7 @@
                 class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {createRole ===
                 'cashier'
                   ? 'fw-black text-accent-500'
-                  : 'fw-medium text-dark'}">Cashier</button
+                  : 'fw-medium text-accent-500'}">Cashier</button
               >
               <button
                 type="button"
@@ -369,7 +373,7 @@
                 class="curr-item w-100 text-start px-4 py-2 border-0 d-flex align-items-center rounded-0 {createRole ===
                 'user'
                   ? 'fw-black text-accent-500'
-                  : 'fw-medium text-dark'}">User</button
+                  : 'fw-medium text-accent-500'}">User</button
               >
             </div>
           {/if}
