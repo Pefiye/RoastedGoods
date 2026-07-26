@@ -3,15 +3,19 @@ import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 import { fail } from '@sveltejs/kit';
 
-export const load = async ({ locals }) => {
-  const { supabase } = locals;
+export const load = ({ locals }) => {
+  const getAccounts = async () => {
+    const { supabase } = locals;
 
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('*')
-    .order('created_at', { ascending: false });
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  return { profiles: profiles || [] };
+    return profiles || [];
+  };
+
+  return { streamed: { profiles: getAccounts() } };
 };
 
 export const actions = {

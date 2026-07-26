@@ -4,8 +4,21 @@
 
   let { data } = $props();
 
-  const order = $derived(data.order);
-  const orderDetails = $derived(data.orderDetails);
+  let order = $state({});
+  let orderDetails = $state([]);
+  let isLoading = $state(true);
+  let errorMsg = $state(null);
+
+  $effect(() => {
+    data.streamed.orderData.then(res => {
+      order = res.order;
+      orderDetails = res.orderDetails;
+      isLoading = false;
+    }).catch(err => {
+      errorMsg = err.message || 'Order not found';
+      isLoading = false;
+    });
+  });
 
   let updating = $state(false);
 
@@ -68,12 +81,56 @@
     >
       <i class="bi bi-caret-left-fill fsc-4"></i>
     </a>
-    <h1 class="fsc-4 fw-black text-accent-500 m-0">
-      Order <span class="text-accent-500">#{order.id.split("-")[0]}</span>
-    </h1>
+    {#if isLoading}
+      <div class="placeholder-glow"><span class="placeholder col-4 rounded" style="width: 150px;"></span></div>
+    {:else}
+      <h1 class="fsc-4 fw-black text-accent-500 m-0">
+        Order <span class="text-accent-500">#{order.id?.split("-")[0]}</span>
+      </h1>
+    {/if}
   </div>
 
-  <div class="row g-6">
+  {#if isLoading}
+    <div class="row g-6 placeholder-glow">
+      <div class="col-12 col-lg-8 d-flex flex-column">
+        <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column flex-grow-1">
+          <div class="d-flex justify-content-between align-items-center mb-5 pb-4 border-bottom border-accent-200">
+            <span class="placeholder col-3 rounded" style="height: 24px;"></span>
+            <span class="placeholder col-2 rounded"></span>
+          </div>
+          <div class="d-flex flex-column gap-4 stagger-children mb-6">
+            {#each Array(2) as _}
+              <div class="d-flex align-items-center gap-4 pb-4 border-bottom border-accent-200 last-border-0">
+                <div class="rounded-3 placeholder bg-accent-200 flex-shrink-0" style="width: 60px; height: 60px;"></div>
+                <div class="d-flex flex-column flex-grow-1 gap-2">
+                  <span class="placeholder col-4 rounded"></span>
+                  <span class="placeholder col-3 rounded"></span>
+                </div>
+                <span class="placeholder col-2 rounded"></span>
+              </div>
+            {/each}
+          </div>
+          <div class="d-flex justify-content-between align-items-center pt-4 border-top border-accent-200 mt-auto">
+            <span class="placeholder col-2 rounded"></span>
+            <span class="placeholder col-3 rounded" style="height: 24px;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4 d-flex flex-column gap-6">
+        <div class="bg-white p-6 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column gap-5">
+          <div class="d-flex flex-column gap-2"><span class="placeholder col-4 rounded"></span><span class="placeholder col-8 rounded" style="height: 24px;"></span></div>
+          <div class="d-flex flex-column gap-2"><span class="placeholder col-4 rounded"></span><span class="placeholder col-6 rounded-pill" style="height: 38px;"></span></div>
+        </div>
+      </div>
+    </div>
+  {:else if errorMsg}
+    <div class="text-center p-5 bg-secondary rounded-4 border border-danger border-dashed">
+      <i class="bi bi-exclamation-triangle text-danger opacity-50 mb-4 d-block" style="font-size: 4rem;"></i>
+      <h3 class="fsc-4 fw-bold text-danger mb-2">Error Loading Order</h3>
+      <p class="fsc-3 text-muted m-0">{errorMsg}</p>
+    </div>
+  {:else}
+    <div class="row g-6">
     <div class="col-12 col-lg-8 d-flex flex-column">
 
       <div
@@ -194,7 +251,7 @@
         {/if}
       </div>
     </div>
-  </div>
+  {/if}
 </div>
 
 <style>

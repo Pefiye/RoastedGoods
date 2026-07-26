@@ -6,8 +6,23 @@
 
   let { data } = $props();
 
-  const order = $derived(data.order);
-  const orderDetails = $derived(data.orderDetails);
+  let order = $state({});
+  let orderDetails = $state([]);
+  let countdown = $state(null);
+  let isLoading = $state(true);
+  let error = $state(null);
+
+  $effect(() => {
+    data.streamed.orderData.then(res => {
+      order = res.order;
+      orderDetails = res.orderDetails;
+      countdown = res.expiresIn;
+      isLoading = false;
+    }).catch(err => {
+      error = err;
+      isLoading = false;
+    });
+  });
 
   function formatDate(dateString) {
     const options = {
@@ -39,7 +54,6 @@
 
   let retrying = $state(false);
   let cancelling = $state(false);
-  let countdown = $state(data.expiresIn);
   $effect(() => {
     if (order.status !== "pending" || countdown === null || countdown <= 0)
       return;
@@ -190,10 +204,54 @@
       >
         <i class="bi bi-caret-left-fill fsc-4"></i>
       </a>
-      <h1 class="fsc-4 fw-black text-accent-500 m-0">Order Details</h1>
+      {#if isLoading}
+        <div class="placeholder-glow"><span class="placeholder col-4 rounded" style="width: 150px;"></span></div>
+      {:else}
+        <h1 class="fsc-4 fw-black text-accent-500 m-0">Order Details</h1>
+      {/if}
     </div>
 
-    <div class="col-12 mb-6">
+    {#if isLoading}
+      <div class="col-12 mb-6 placeholder-glow">
+        <div class="bg-white p-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column justify-content-center align-items-center text-center">
+          <span class="placeholder col-3 rounded mb-4" style="height: 24px;"></span>
+          <span class="placeholder col-2 rounded-pill mb-3" style="height: 38px;"></span>
+          <span class="placeholder col-2 rounded-3" style="height: 24px;"></span>
+        </div>
+      </div>
+      <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 mb-6 placeholder-glow">
+        <div class="d-flex flex-column mb-5 pb-5 border-bottom border-accent-200 gap-2">
+          <span class="placeholder col-2 rounded"></span>
+          <span class="placeholder col-3 rounded"></span>
+        </div>
+        <span class="placeholder col-2 rounded mb-5" style="height: 24px;"></span>
+        <div class="d-flex flex-column gap-4">
+          {#each Array(2) as _}
+            <div class="d-flex align-items-center gap-4 pb-4 border-bottom border-accent-200 last-border-0">
+              <div class="rounded-3 placeholder bg-accent-200 flex-shrink-0" style="width: 60px; height: 60px;"></div>
+              <div class="d-flex flex-column flex-grow-1 gap-2">
+                <span class="placeholder col-4 rounded"></span>
+                <span class="placeholder col-3 rounded"></span>
+              </div>
+              <span class="placeholder col-2 rounded"></span>
+            </div>
+          {/each}
+        </div>
+      </div>
+      <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 placeholder-glow">
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="placeholder col-2 rounded"></span>
+          <span class="placeholder col-2 rounded"></span>
+        </div>
+      </div>
+    {:else if error}
+      <div class="text-center p-5 bg-secondary rounded-4 border border-danger border-dashed">
+        <i class="bi bi-exclamation-triangle text-danger opacity-50 mb-4 d-block" style="font-size: 4rem;"></i>
+        <h3 class="fsc-4 fw-bold text-danger mb-2">Error Loading Order</h3>
+        <p class="fsc-3 text-muted m-0">{error.message || 'Order not found.'}</p>
+      </div>
+    {:else}
+      <div class="col-12 mb-6">
       <div
         class="bg-white p-5 rounded-4 b-shadow-s border border-accent-200 d-flex flex-column justify-content-center align-items-center text-center"
       >
@@ -344,7 +402,7 @@
           {/if}
         </button>
       {/if}
-    </div>
+    {/if}
   </div>
 </div>
 

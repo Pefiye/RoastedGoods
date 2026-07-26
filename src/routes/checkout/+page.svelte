@@ -8,8 +8,23 @@
 
   let { data } = $props();
 
-  let checkoutItems = $derived(data.checkoutItems);
-  let totalPrice = $derived(data.totalPrice);
+  let checkoutItems = $state([]);
+  let totalPrice = $state(0);
+  let cartId = $state(null);
+  let isLoading = $state(true);
+
+  $effect(() => {
+    data.streamed.checkoutData.then(res => {
+      if (res.redirect) {
+        goto(res.redirect);
+        return;
+      }
+      checkoutItems = res.checkoutItems;
+      totalPrice = res.totalPrice;
+      cartId = res.cartId;
+      isLoading = false;
+    });
+  });
 
   let processing = $state(false);
   let orderPlaced = $state(false);
@@ -29,7 +44,7 @@
         body: JSON.stringify({
           checkoutItems,
           totalPrice,
-          cartId: data.cartId,
+          cartId,
         }),
       });
 
@@ -139,7 +154,31 @@
         </div>
       {/if}
 
-      {#if checkoutItems.length === 0}
+      {#if isLoading}
+        <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 mb-6 placeholder-glow">
+          <h3 class="fsc-4 fw-black text-accent-500 mb-5">Order Summary</h3>
+          <div class="d-flex flex-column gap-4">
+            {#each Array(3) as _}
+              <div class="d-flex align-items-center gap-4 pb-4 border-bottom border-accent-200 last-border-0">
+                <div class="rounded-3 placeholder bg-accent-200 flex-shrink-0" style="width: 60px; height: 60px;"></div>
+                <div class="d-flex flex-column flex-grow-1">
+                  <span class="placeholder col-6 rounded mb-2"></span>
+                  <span class="placeholder col-4 rounded"></span>
+                </div>
+                <span class="placeholder col-3 rounded"></span>
+              </div>
+            {/each}
+          </div>
+        </div>
+        <div class="bg-white p-6 p-md-8 rounded-4 b-shadow-s border border-accent-200 placeholder-glow">
+          <div class="d-flex justify-content-between mb-5">
+            <span class="placeholder col-3 rounded bg-accent-200"></span>
+            <span class="placeholder col-4 rounded bg-accent-200"></span>
+          </div>
+          <span class="placeholder col-12 rounded-pill bg-accent-200" style="height: 52px;"></span>
+        </div>
+      {:else}
+        {#if checkoutItems.length === 0}
         <div
           class="bg-white p-8 rounded-4 b-shadow-s border border-accent-200 text-center"
         >
@@ -207,6 +246,7 @@
             {/if}
           </button>
         </div>
+      {/if}
       {/if}
     {/if}
   </div>
