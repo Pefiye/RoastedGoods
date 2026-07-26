@@ -37,7 +37,9 @@ export const POST = async ({ request }) => {
     } else if (transactionStatus == 'pending') {
       newStatus = 'pending';
     }
-    const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+    const { env } = await import('$env/dynamic/private');
+    const { env: publicEnv } = await import('$env/dynamic/public');
+    const supabase = createClient(publicEnv.PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
     const { error } = await supabase.rpc('update_order_status', {
       p_order_id: orderId,
