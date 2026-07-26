@@ -1,7 +1,10 @@
 export const load = async ({ locals }) => {
   const { supabase } = locals;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const now = new Date();
+  const options = { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' };
+  const formatter = new Intl.DateTimeFormat('en-CA', options);
+  const [year, month, day] = formatter.format(now).split('-');
+  const today = new Date(`${year}-${month}-${day}T00:00:00+07:00`);
 
   const { data: orders } = await supabase
     .from('orders')
