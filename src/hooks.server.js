@@ -66,6 +66,15 @@ export const handle = async ({ event, resolve }) => {
       else if (!session) {
         throw redirect(303, '/auth/login');
       }
+    } else if (!event.isDataRequest) {
+      const { data: { session: fastSession } } = await event.locals.supabase.auth.getSession();
+      if (fastSession) {
+         const { session, profile } = await event.locals.safeGetSession();
+         if (session) {
+           if (profile?.role === 'admin') throw redirect(303, '/admin');
+           if (profile?.role === 'cashier') throw redirect(303, '/cashier');
+         }
+      }
     }
   }
 
